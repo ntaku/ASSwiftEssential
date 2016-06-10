@@ -2,7 +2,7 @@
 import Foundation
 import UIKit
 
-extension UIView {
+public extension UIView {
     
     func removeAllSubViews() {
         for v in self.subviews {

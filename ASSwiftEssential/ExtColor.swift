@@ -2,7 +2,7 @@
 import Foundation
 import UIKit
 
-extension UIColor {
+public extension UIColor {
 
     // 0x000000 の書式でカラーを取得
     class func color(hex : Int, alpha : CGFloat = 1.0) -> UIColor {
@@ -32,7 +32,7 @@ extension UIColor {
     }
 }
 
-extension CGColor {
+public extension CGColor {
     
     func toString() -> String? {
         if let x = self.toRGBA() {
