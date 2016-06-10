@@ -5,7 +5,7 @@ import UIKit
 public extension UIColor {
 
     // 0x000000 の書式でカラーを取得
-    class func color(hex : Int, alpha : CGFloat = 1.0) -> UIColor {
+    public class func color(hex : Int, alpha : CGFloat = 1.0) -> UIColor {
         let r = CGFloat((hex & 0xFF0000) >> 16) / 255.0
         let g = CGFloat((hex & 0x00FF00) >> 8) / 255.0
         let b = CGFloat(hex & 0x0000FF) / 255.0
@@ -13,7 +13,7 @@ public extension UIColor {
     }
 
     // "0x000000" の書式でカラーを取得
-    class func colorString(string: String, alpha: CGFloat = 1.0) -> UIColor {
+    public class func colorString(string: String, alpha: CGFloat = 1.0) -> UIColor {
         let range = NSMakeRange(0, string.characters.count)
         let hex = (string as NSString).stringByReplacingOccurrencesOfString("[^0-9a-fA-F]", withString: "", options: NSStringCompareOptions.RegularExpressionSearch, range: range)
         var c: UInt32 = 0
@@ -22,19 +22,19 @@ public extension UIColor {
     }
 
     // 現在のカラーを "0x000000" の書式で取得
-    func toString() -> String? {
+    public func toString() -> String? {
         return self.CGColor.toString()
     }
 
     // 現在のカラーの成分要素を取得
-    func toRGBA() -> (red: Int, green: Int, blue: Int, alpha: CGFloat)? {
+    public func toRGBA() -> (red: Int, green: Int, blue: Int, alpha: CGFloat)? {
         return self.CGColor.toRGBA()
     }
 }
 
 public extension CGColor {
     
-    func toString() -> String? {
+    public func toString() -> String? {
         if let x = self.toRGBA() {
             let hex = x.red * 0x10000 + x.green * 0x100 + x.blue
             return NSString(format:"%06x", hex) as String
@@ -43,7 +43,7 @@ public extension CGColor {
         }
     }
     
-    func toRGBA() -> (red: Int, green: Int, blue: Int, alpha: CGFloat)? {
+    public func toRGBA() -> (red: Int, green: Int, blue: Int, alpha: CGFloat)? {
         let colorSpace = CGColorGetColorSpace(self)
         let colorSpaceModel = CGColorSpaceGetModel(colorSpace)
         if colorSpaceModel.rawValue == 1 {
