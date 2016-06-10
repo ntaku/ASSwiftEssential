@@ -3,7 +3,7 @@ import Foundation
 
 // Other Swift Flags に -D DEBUG を追加する
 
-class Logger {
+public class Logger {
 
     // Debug log
     class func d(message: String, function: String = #function, file: String = #file) {

@@ -15,7 +15,7 @@ import UIKit
  マルチタスクだと w:C h:R も発生
 */
 
-class Device {
+public class Device {
     
     static func iOSVersion() -> Double {
         return (UIDevice.currentDevice().systemVersion as NSString).doubleValue
