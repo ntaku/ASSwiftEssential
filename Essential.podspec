@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
 
-  s.name         = "ASSwiftEssential"
-  s.version      = "1.0.2"
-  s.summary      = "ASSwiftEssential"
-  s.description  = "The collection of swift essential code."
+  s.name         = "Essential"
+  s.version      = "1.0"
+  s.summary      = "Essential code for swift project"
+  s.description  = "Essential code for swift project"
   s.homepage     = "https://github.com/ntaku/ASSwiftEssential"
 
   s.author       = { "Takuto Nishioka" => "ntakuto@gmail.com" }
@@ -13,6 +13,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source       = { :git => "https://github.com/ntaku/ASSwiftEssential.git", :tag => "#{s.version}" }
-  s.source_files = "ASSwiftEssential/*.{swift}"
+  s.source_files = "Essential/*.{swift}"
 
 end
