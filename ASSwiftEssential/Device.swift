@@ -17,16 +17,16 @@ import UIKit
 
 public class Device {
     
-    static func iOSVersion() -> Double {
+    public static func iOSVersion() -> Double {
         return (UIDevice.currentDevice().systemVersion as NSString).doubleValue
     }
     
-    static func appVersion() -> String {
+    public static func appVersion() -> String {
         let dict = NSBundle.mainBundle().infoDictionary as Dictionary!
         return dict["CFBundleShortVersionString"] as! String
     }
     
-    static func isLandscape() -> Bool {
+    public static func isLandscape() -> Bool {
         if(UIDevice.currentDevice().orientation == UIDeviceOrientation.LandscapeLeft ||
             UIDevice.currentDevice().orientation == UIDeviceOrientation.LandscapeRight){
                 return true
@@ -34,7 +34,7 @@ public class Device {
         return false
     }
     
-    static func isRetina() -> Bool {
+    public static func isRetina() -> Bool {
         if(iOSVersion() >= 8.0){
             return UIScreen.mainScreen().traitCollection.displayScale >= 2.0
         }else{
@@ -43,22 +43,22 @@ public class Device {
     }
 
     // iPhone 4/4s
-    static func isPhone35() -> Bool {
+    public static func isPhone35() -> Bool {
         return isPhone(width: 320, height: 480)
     }
     
     // iPhone 5/5s
-    static func isPhone40() -> Bool {
+    public static func isPhone40() -> Bool {
         return isPhone(width: 320, height: 568)
     }
     
     // iPhone 6
-    static func isPhone47() -> Bool {
+    public static func isPhone47() -> Bool {
         return isPhone(width: 375, height: 667)
     }
     
     // iPhone 6+
-    static func isPhone55() -> Bool {
+    public static func isPhone55() -> Bool {
         return isPhone(width: 414, height: 736)
     }
     
@@ -69,7 +69,7 @@ public class Device {
         return (w == width && h == height) || (w == height && h == width)
     }
     
-    static func isPad() -> Bool {
+    public static func isPad() -> Bool {
         if(iOSVersion() >= 8.0){
             return UIScreen.mainScreen().traitCollection.userInterfaceIdiom == UIUserInterfaceIdiom.Pad
         }else{
@@ -78,7 +78,7 @@ public class Device {
     }
     
     // 横Compact, 縦Regular の状態かどうか (iPhoneとiPadのマルチタスク時に該当)
-    static func isSizeClass_wC_hR(viewController vc: UIViewController) -> Bool {
+    public static func isSizeClass_wC_hR(viewController vc: UIViewController) -> Bool {
         let hC = UITraitCollection.init(horizontalSizeClass: UIUserInterfaceSizeClass.Compact)
         let vR = UITraitCollection.init(verticalSizeClass: UIUserInterfaceSizeClass.Regular)
         
@@ -91,7 +91,7 @@ public class Device {
     }
     
     // 横Regular, 縦Regular の状態かどうか
-    static func isSizeClass_wR_hR(viewController vc: UIViewController) -> Bool {
+    public static func isSizeClass_wR_hR(viewController vc: UIViewController) -> Bool {
         let hR = UITraitCollection.init(horizontalSizeClass: UIUserInterfaceSizeClass.Regular)
         let vR = UITraitCollection.init(verticalSizeClass: UIUserInterfaceSizeClass.Regular)
         
@@ -104,7 +104,7 @@ public class Device {
     }
     
     // iPadがマルチタスク状態かどうか（w:R, h:Rの解像度が複数存在する）
-    static func isSizeClass_wR_hR_Full(viewController vc: UIViewController) -> Bool {
+    public static func isSizeClass_wR_hR_Full(viewController vc: UIViewController) -> Bool {
         if(self.isSizeClass_wR_hR(viewController: vc)){
             if(UIScreen.mainScreen().bounds.size.width == vc.view.frame.size.width){
                 return true
