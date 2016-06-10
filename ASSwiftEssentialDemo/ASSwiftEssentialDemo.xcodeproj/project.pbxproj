@@ -12,7 +12,11 @@
 		2BC8548D1D0A8A0100774A98 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BC8548B1D0A8A0100774A98 /* Main.storyboard */; };
 		2BC8548F1D0A8A0100774A98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BC8548E1D0A8A0100774A98 /* Assets.xcassets */; };
 		2BC854921D0A8A0100774A98 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BC854901D0A8A0100774A98 /* LaunchScreen.storyboard */; };
-		2BC8549B1D0A8A7800774A98 /* ASSwiftEssential in Resources */ = {isa = PBXBuildFile; fileRef = 2BC8549A1D0A8A7800774A98 /* ASSwiftEssential */; };
+		2BF9788C1D0A938D00FE0C72 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF978871D0A938D00FE0C72 /* Device.swift */; };
+		2BF9788D1D0A938D00FE0C72 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF978881D0A938D00FE0C72 /* Logger.swift */; };
+		2BF9788E1D0A938D00FE0C72 /* ExtColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF978891D0A938D00FE0C72 /* ExtColor.swift */; };
+		2BF9788F1D0A938D00FE0C72 /* ExtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF9788A1D0A938D00FE0C72 /* ExtView.swift */; };
+		2BF978911D0A9F4A00FE0C72 /* ExtString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF978901D0A9F4A00FE0C72 /* ExtString.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +27,11 @@
 		2BC8548E1D0A8A0100774A98 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ASSwiftEssentialDemo/Assets.xcassets; sourceTree = "<group>"; };
 		2BC854911D0A8A0100774A98 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2BC854931D0A8A0100774A98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ASSwiftEssentialDemo/Info.plist; sourceTree = "<group>"; };
-		2BC8549A1D0A8A7800774A98 /* ASSwiftEssential */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ASSwiftEssential; sourceTree = "<group>"; };
+		2BF978871D0A938D00FE0C72 /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		2BF978881D0A938D00FE0C72 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		2BF978891D0A938D00FE0C72 /* ExtColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtColor.swift; sourceTree = "<group>"; };
+		2BF9788A1D0A938D00FE0C72 /* ExtView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtView.swift; sourceTree = "<group>"; };
+		2BF978901D0A9F4A00FE0C72 /* ExtString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtString.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,7 +48,7 @@
 		2BC8547B1D0A8A0100774A98 = {
 			isa = PBXGroup;
 			children = (
-				2BC8549A1D0A8A7800774A98 /* ASSwiftEssential */,
+				2BF978851D0A938D00FE0C72 /* ASSwiftEssential */,
 				2BC854861D0A8A0100774A98 /* ASSwiftEssentialDemo */,
 				2BC854991D0A8A3100774A98 /* Resources */,
 				2BC854851D0A8A0100774A98 /* Products */,
@@ -73,6 +81,18 @@
 				2BC854931D0A8A0100774A98 /* Info.plist */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		2BF978851D0A938D00FE0C72 /* ASSwiftEssential */ = {
+			isa = PBXGroup;
+			children = (
+				2BF978871D0A938D00FE0C72 /* Device.swift */,
+				2BF978881D0A938D00FE0C72 /* Logger.swift */,
+				2BF978891D0A938D00FE0C72 /* ExtColor.swift */,
+				2BF9788A1D0A938D00FE0C72 /* ExtView.swift */,
+				2BF978901D0A9F4A00FE0C72 /* ExtString.swift */,
+			);
+			path = ASSwiftEssential;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,7 +154,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BC854921D0A8A0100774A98 /* LaunchScreen.storyboard in Resources */,
-				2BC8549B1D0A8A7800774A98 /* ASSwiftEssential in Resources */,
 				2BC8548F1D0A8A0100774A98 /* Assets.xcassets in Resources */,
 				2BC8548D1D0A8A0100774A98 /* Main.storyboard in Resources */,
 			);
@@ -147,8 +166,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2BF9788D1D0A938D00FE0C72 /* Logger.swift in Sources */,
 				2BC8548A1D0A8A0100774A98 /* ViewController.swift in Sources */,
+				2BF978911D0A9F4A00FE0C72 /* ExtString.swift in Sources */,
+				2BF9788E1D0A938D00FE0C72 /* ExtColor.swift in Sources */,
+				2BF9788F1D0A938D00FE0C72 /* ExtView.swift in Sources */,
 				2BC854881D0A8A0100774A98 /* AppDelegate.swift in Sources */,
+				2BF9788C1D0A938D00FE0C72 /* Device.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +291,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ASSwiftEssentialDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ntaku.ASSwiftEssentialDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -278,6 +303,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ASSwiftEssentialDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ntaku.ASSwiftEssentialDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -302,6 +328,7 @@
 				2BC854981D0A8A0100774A98 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

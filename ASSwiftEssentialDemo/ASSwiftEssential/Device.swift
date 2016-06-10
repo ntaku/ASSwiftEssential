@@ -42,50 +42,6 @@ class Device {
         }
     }
 
-    // 横Compact, 縦Regular の状態かどうか (iPhoneとiPadのマルチタスク時に該当)
-    static func isSizeClass_wC_hR(viewController vc: UIViewController) -> Bool {
-        let hC = UITraitCollection.init(horizontalSizeClass: UIUserInterfaceSizeClass.Compact)
-        let vR = UITraitCollection.init(verticalSizeClass: UIUserInterfaceSizeClass.Regular)
-        
-        if(vc.traitCollection.containsTraitsInCollection(hC)){
-            if(vc.traitCollection.containsTraitsInCollection(vR)){
-                return true
-            }
-        }
-        return false
-    }
-
-    // 横Regular, 縦Regular の状態かどうか
-    static func isSizeClass_wR_hR(viewController vc: UIViewController) -> Bool {
-        let hR = UITraitCollection.init(horizontalSizeClass: UIUserInterfaceSizeClass.Regular)
-        let vR = UITraitCollection.init(verticalSizeClass: UIUserInterfaceSizeClass.Regular)
-
-        if(vc.traitCollection.containsTraitsInCollection(hR)){
-            if(vc.traitCollection.containsTraitsInCollection(vR)){
-                return true
-            }
-        }
-        return false
-    }
-    
-    // iPadがマルチタスク状態かどうか（w:R, h:Rの解像度が複数存在する）
-    static func isSizeClass_wR_hR_Full(viewController vc: UIViewController) -> Bool {
-        if(self.isSizeClass_wR_hR(viewController: vc)){
-            if(UIScreen.mainScreen().bounds.size.width == vc.view.frame.size.width){
-                return true
-            }
-        }
-        return false
-    }
-    
-    static func isPad() -> Bool {
-        if(iOSVersion() >= 8.0){
-            return UIScreen.mainScreen().traitCollection.userInterfaceIdiom == UIUserInterfaceIdiom.Pad
-        }else{
-            return UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
-        }
-    }
-    
     // iPhone 4/4s
     static func isPhone35() -> Bool {
         return isPhone(width: 320, height: 480)
@@ -111,5 +67,49 @@ class Device {
         let w = UIScreen.mainScreen().bounds.width
         let h = UIScreen.mainScreen().bounds.height
         return (w == width && h == height) || (w == height && h == width)
+    }
+    
+    static func isPad() -> Bool {
+        if(iOSVersion() >= 8.0){
+            return UIScreen.mainScreen().traitCollection.userInterfaceIdiom == UIUserInterfaceIdiom.Pad
+        }else{
+            return UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
+        }
+    }
+    
+    // 横Compact, 縦Regular の状態かどうか (iPhoneとiPadのマルチタスク時に該当)
+    static func isSizeClass_wC_hR(viewController vc: UIViewController) -> Bool {
+        let hC = UITraitCollection.init(horizontalSizeClass: UIUserInterfaceSizeClass.Compact)
+        let vR = UITraitCollection.init(verticalSizeClass: UIUserInterfaceSizeClass.Regular)
+        
+        if(vc.traitCollection.containsTraitsInCollection(hC)){
+            if(vc.traitCollection.containsTraitsInCollection(vR)){
+                return true
+            }
+        }
+        return false
+    }
+    
+    // 横Regular, 縦Regular の状態かどうか
+    static func isSizeClass_wR_hR(viewController vc: UIViewController) -> Bool {
+        let hR = UITraitCollection.init(horizontalSizeClass: UIUserInterfaceSizeClass.Regular)
+        let vR = UITraitCollection.init(verticalSizeClass: UIUserInterfaceSizeClass.Regular)
+        
+        if(vc.traitCollection.containsTraitsInCollection(hR)){
+            if(vc.traitCollection.containsTraitsInCollection(vR)){
+                return true
+            }
+        }
+        return false
+    }
+    
+    // iPadがマルチタスク状態かどうか（w:R, h:Rの解像度が複数存在する）
+    static func isSizeClass_wR_hR_Full(viewController vc: UIViewController) -> Bool {
+        if(self.isSizeClass_wR_hR(viewController: vc)){
+            if(UIScreen.mainScreen().bounds.size.width == vc.view.frame.size.width){
+                return true
+            }
+        }
+        return false
     }
 }
