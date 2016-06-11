@@ -4,10 +4,12 @@ import UIKit
 
 public extension UIImage {
 
-    // 中心を正方形にクロップ
+    /**
+     中心を正方形にクロップ
+     */
     public func crop() -> UIImage {
         let w = self.size.width
-        let h = self.size.width
+        let h = self.size.height
         let size = (w < h) ? w : h
 
         let sx = self.size.width/2 - size/2
@@ -17,37 +19,80 @@ public extension UIImage {
         return self.crop(rect)
     }
     
-    // 指定位置をクロップ
+    /**
+     指定した位置をクロップ
+    */
     public func crop(bounds: CGRect) -> UIImage {
         let cgImage = CGImageCreateWithImageInRect(self.CGImage, bounds)
         return UIImage.init(CGImage: cgImage!)
     }
 
-    // 画像を標準の向きに修正する
-    public func fixOrientation() -> UIImage {
+    /**
+     画像を標準の向きに修正する
+     */
+    public func fixOrientationUp() -> UIImage {
+        if self.imageOrientation == .Up {
+            return self
+        }
+        
+        let transform = self.transformForOrientation(self.size)
         let imageRef = self.CGImage
-        let w = CGFloat(CGImageGetWidth(imageRef))
-        let h = CGFloat(CGImageGetHeight(imageRef))
         
-        // Orientation = 1
-        let size = CGSizeMake(w, h)
-        var affineTransform: CGAffineTransform
-        affineTransform = CGAffineTransformMakeScale(1, -1)
-        affineTransform = CGAffineTransformTranslate(affineTransform, 0, -h)
+        let ctx = CGBitmapContextCreate(nil,
+                                        Int(self.size.width),
+                                        Int(self.size.height),
+                                        CGImageGetBitsPerComponent(imageRef),
+                                        0,
+                                        CGImageGetColorSpace(self.CGImage),
+                                        CGImageGetBitmapInfo(self.CGImage).rawValue)
+        CGContextConcatCTM(ctx, transform)
+ 
+        switch self.imageOrientation {
+        case .Left: fallthrough
+        case .LeftMirrored: fallthrough
+        case .Right: fallthrough
+        case .RightMirrored:
+            CGContextDrawImage(ctx, CGRectMake(0,0,self.size.height,self.size.width), imageRef)
+            break
+        default:
+            CGContextDrawImage(ctx, CGRectMake(0,0,self.size.width,self.size.height), imageRef)
+            break
+        }
         
-        UIGraphicsBeginImageContext(size)
-        let context = UIGraphicsGetCurrentContext()
-        CGContextConcatCTM(context, affineTransform)
-        CGContextDrawImage(context, CGRectMake(0, 0, w, h), imageRef)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage
+        let cgimg = CGBitmapContextCreateImage(ctx)
+        return UIImage.init(CGImage: cgimg!)
     }
-    
-    // 指定サイズでリサイズ（Exif:Orientationは考慮される）
+
+    /**
+     リサイズ
+     */
     public func resize(size: CGSize,
-                quality: CGInterpolationQuality) -> UIImage {
+                       quality: CGInterpolationQuality,
+                       contentMode: UIViewContentMode) -> UIImage {
+        
+        let horizontalRatio = size.width / self.size.width
+        let verticalRatio = size.height / self.size.height
+        let ratio: CGFloat
+        
+        switch contentMode {
+        case .ScaleAspectFit:
+            ratio = min(horizontalRatio, verticalRatio)
+            break
+        case .ScaleAspectFill: fallthrough
+        default:
+            ratio = max(horizontalRatio, verticalRatio)
+            break
+        }
+        
+        let newSize = CGSizeMake(self.size.width * ratio, self.size.height * ratio)
+        return self.resize(newSize, quality: quality)
+    }
+
+    /**
+     リサイズ
+     */
+    public func resize(size: CGSize,
+                       quality: CGInterpolationQuality) -> UIImage {
 
         var drawTransposed = false
     
@@ -67,34 +112,8 @@ public extension UIImage {
                            transform: self.transformForOrientation(size),
                            transpose: drawTransposed)
     }
-    
-    // アスペクト比を保ったまま自動リサイズ (Exif:Orientationは考慮される)
-    public func resize(size: CGSize,
-                quality: CGInterpolationQuality,
-                contentMode: UIViewContentMode) -> UIImage {
 
-        let horizontalRatio = size.width / self.size.width
-        let verticalRatio = size.height / self.size.height
-        let ratio: CGFloat
-    
-        switch contentMode {
-        case .ScaleAspectFit:
-            ratio = min(horizontalRatio, verticalRatio)
-            break
-        case .ScaleAspectFill:
-            ratio = max(horizontalRatio, verticalRatio)
-            break
-        default:
-            ratio = max(horizontalRatio, verticalRatio)
-            break
-        }
-    
-        let newSize = CGSizeMake(self.size.width * ratio, self.size.height * ratio)
-        return self.resize(newSize, quality: quality)
-    }
-
-    // Orientationを考慮したリサイズ
-    public func resize(size: CGSize,
+    private func resize(size: CGSize,
                 quality: CGInterpolationQuality,
                 transform: CGAffineTransform,
                 transpose: Bool) -> UIImage {
@@ -128,7 +147,9 @@ public extension UIImage {
         return UIImage.init(CGImage: cgImageRef!)
     }
     
-    // 画像を正しい向きにするためのTransformを取得
+    /**
+     画像を正しい向きにするためのTransformを取得
+     */
     private func transformForOrientation(newSize: CGSize) -> CGAffineTransform {
         var transform = CGAffineTransformIdentity
         
@@ -180,4 +201,17 @@ public extension UIImage {
         return transform
     }
 
+    public func orientationString() -> String {
+        switch self.imageOrientation {
+        case .Up:               return "Up"
+        case .Down:             return "Down"
+        case .Left:             return "Left"
+        case .Right:            return "Right"
+        case .UpMirrored:       return "UpMirrored"
+        case .DownMirrored:     return "DownMirrored"
+        case .LeftMirrored:     return "LeftMirrored"
+        case .RightMirrored:    return "RightMirrored"
+        }
+    }
+    
 }

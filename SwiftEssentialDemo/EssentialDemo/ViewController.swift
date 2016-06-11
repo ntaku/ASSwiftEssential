@@ -34,6 +34,27 @@ class ViewController: UIViewController {
         v2 = UIView.init(frame: CGRectMake(0, 50, w, 50))
         v2.backgroundColor = color2
         self.view.addSubview(v2)
+        
+        // ExtImage
+        /*
+        var img = UIImage.init(named: "orientation_6.jpg")!
+
+        let iw = CGRectGetWidth(self.view.bounds)
+        let ih = CGRectGetHeight(self.view.bounds)
+        let size = CGSizeMake(iw*2, ih*2)
+
+        Logger.d(img.orientationString())
+        img = img.resize(size, quality: .High, contentMode: .ScaleAspectFit)
+        img = img.crop()
+        Logger.d(img.orientationString())
+        Logger.d(img.description)
+        
+        let imageView = UIImageView.init(frame: self.view.bounds)
+        imageView.backgroundColor = UIColor.grayColor()
+        imageView.contentMode = .ScaleAspectFit
+        imageView.image = img
+        self.view.addSubview(imageView)
+         */
     }
     
     @objc func actionLeft() {
