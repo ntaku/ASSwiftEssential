@@ -64,6 +64,23 @@ public extension UIImage {
     }
 
     /**
+     長辺が指定したサイズになるように自動リサイズ
+    */
+    public func autoResize(maxsize: CGFloat) -> UIImage {
+        if(maxsize > 0){
+            let ratio = maxsize / max(self.size.width, self.size.height)
+            var size = CGSizeMake(self.size.width * ratio, self.size.height * ratio)
+            
+            // オリジナルが設定より小さい場合
+            if self.size.width <= size.width && self.size.height <= size.height {
+                size = self.size
+            }
+            return resize(size, quality: .High)
+        }
+        return resize(self.size, quality: .High)
+    }
+
+    /**
      リサイズ
      */
     public func resize(size: CGSize,
