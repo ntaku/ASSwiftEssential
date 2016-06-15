@@ -3,6 +3,20 @@ import Foundation
 import UIKit
 
 public extension UIImage {
+    
+    /**
+     JPGに変換
+     */
+    public func toJpeg(quality: CGFloat) -> NSData? {
+        return UIImageJPEGRepresentation(self, quality)
+    }
+
+    /**
+     PNGに変換
+     */
+    public func toPng() -> NSData? {
+        return UIImagePNGRepresentation(self)
+    }
 
     /**
      中心を正方形にクロップ

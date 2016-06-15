@@ -15,9 +15,11 @@ class ViewController: UIViewController {
         Logger.d("app ver = \(Device.appVersion())")
         
         // ExtString
-        let n = "test test".length()
-        Logger.d("\(n)")
-
+        Logger.d("length = \("test test test".length)")
+        Logger.d("test test test".split(" ").description)
+        Logger.d("test test test".gsub(" ", to: ""))
+        Logger.d("\("test test".boundingHeight(UIFont.systemFontOfSize(12), width: 30))")
+        
         // ExtColor
         let color1 = UIColor.color(0x66C8F8)
         let color2 = UIColor.colorString("0xEBEBEC")
