@@ -16,16 +16,31 @@ public extension String {
         return self.stringByReplacingOccurrencesOfString(from, withString: to)
     }
 
-    public func boundingHeight(font: UIFont, width: CGFloat) -> CGFloat {
+    public func boundingRect(font: UIFont, size: CGSize) -> CGRect {
         let s = self as NSString
         
-        let size = CGSizeMake(width, CGFloat.max)
         let option = NSStringDrawingOptions.UsesLineFragmentOrigin
         let attr = [NSFontAttributeName: font]
-     
+        
         return s.boundingRectWithSize(size,
                                       options: option,
                                       attributes: attr,
-                                      context: nil).size.height
+                                      context: nil)
+    }
+
+    public func height(font: UIFont) -> CGFloat {
+        return self.boundingRect(font, size: CGSizeMake(CGFloat.max, CGFloat.max)).size.height
+    }
+
+    public func boundingHeight(font: UIFont, width: CGFloat) -> CGFloat {
+        return self.boundingRect(font, size: CGSizeMake(width, CGFloat.max)).size.height
+    }
+
+    public func width(font: UIFont) -> CGFloat {
+        return self.boundingRect(font, size: CGSizeMake(CGFloat.max, CGFloat.max)).size.width
+    }
+
+    public func boundingWidth(font: UIFont, height: CGFloat) -> CGFloat {
+        return self.boundingRect(font, size: CGSizeMake(CGFloat.max, height)).size.width
     }
 }
