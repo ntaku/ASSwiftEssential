@@ -15,6 +15,8 @@ class ViewController: UIViewController {
         Logger.d("app ver = \(Device.appVersion())")
         
         // ExtString
+        Logger.d("ひらがな".toKatakana())
+        Logger.d("カタカナ".toHiragana())
         Logger.d("length = \("test test test".length)")
         Logger.d("test test test".split(" ").description)
         Logger.d("test test test".gsub(" ", to: ""))
