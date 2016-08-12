@@ -13,6 +13,10 @@
 		2B555ABC1D0AAF5700848413 /* ExtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B555AB71D0AAF5700848413 /* ExtView.swift */; };
 		2B555ABD1D0AAF5700848413 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B555AB81D0AAF5700848413 /* Logger.swift */; };
 		2B555ABF1D0AB21B00848413 /* ExtImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B555ABE1D0AB21B00848413 /* ExtImage.swift */; };
+		2B72E3011D5D7FDB00F2A4E1 /* ExtDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B72E3001D5D7FDB00F2A4E1 /* ExtDate.swift */; };
+		2B72E3031D5D803D00F2A4E1 /* ExtTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B72E3021D5D803D00F2A4E1 /* ExtTableViewController.swift */; };
+		2B72E3051D5D807700F2A4E1 /* ExtNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B72E3041D5D807700F2A4E1 /* ExtNavigationController.swift */; };
+		2B72E3071D5D80FE00F2A4E1 /* UIVerticalAlignLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B72E3061D5D80FE00F2A4E1 /* UIVerticalAlignLabel.swift */; };
 		2BD5AA0C1D0B92D6000C011F /* orientation_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2BD5AA081D0B92D6000C011F /* orientation_1.jpg */; };
 		2BD5AA0D1D0B92D6000C011F /* orientation_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2BD5AA091D0B92D6000C011F /* orientation_3.jpg */; };
 		2BD5AA0E1D0B92D6000C011F /* orientation_6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2BD5AA0A1D0B92D6000C011F /* orientation_6.jpg */; };
@@ -32,6 +36,10 @@
 		2B555AB71D0AAF5700848413 /* ExtView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtView.swift; sourceTree = "<group>"; };
 		2B555AB81D0AAF5700848413 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		2B555ABE1D0AB21B00848413 /* ExtImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtImage.swift; sourceTree = "<group>"; };
+		2B72E3001D5D7FDB00F2A4E1 /* ExtDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtDate.swift; sourceTree = "<group>"; };
+		2B72E3021D5D803D00F2A4E1 /* ExtTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtTableViewController.swift; sourceTree = "<group>"; };
+		2B72E3041D5D807700F2A4E1 /* ExtNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtNavigationController.swift; sourceTree = "<group>"; };
+		2B72E3061D5D80FE00F2A4E1 /* UIVerticalAlignLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIVerticalAlignLabel.swift; sourceTree = "<group>"; };
 		2BC854841D0A8A0100774A98 /* EssentialDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EssentialDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BD5A9F91D0B9108000C011F /* EssentialDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EssentialDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		2BD5AA081D0B92D6000C011F /* orientation_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = orientation_1.jpg; sourceTree = "<group>"; };
@@ -60,15 +68,43 @@
 		2B555AB31D0AAF5700848413 /* SwiftEssential */ = {
 			isa = PBXGroup;
 			children = (
+				2B72E30A1D5D833A00F2A4E1 /* UIKit */,
+				2B72E3091D5D833100F2A4E1 /* Extension */,
+				2B72E3081D5D832900F2A4E1 /* Util */,
+			);
+			name = SwiftEssential;
+			path = ../SwiftEssential;
+			sourceTree = "<group>";
+		};
+		2B72E3081D5D832900F2A4E1 /* Util */ = {
+			isa = PBXGroup;
+			children = (
 				2B555AB81D0AAF5700848413 /* Logger.swift */,
 				2B555AB41D0AAF5700848413 /* Device.swift */,
+			);
+			name = Util;
+			sourceTree = "<group>";
+		};
+		2B72E3091D5D833100F2A4E1 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
 				2B555AB51D0AAF5700848413 /* ExtColor.swift */,
 				2B555AB61D0AAF5700848413 /* ExtString.swift */,
 				2B555AB71D0AAF5700848413 /* ExtView.swift */,
 				2B555ABE1D0AB21B00848413 /* ExtImage.swift */,
+				2B72E3001D5D7FDB00F2A4E1 /* ExtDate.swift */,
+				2B72E3021D5D803D00F2A4E1 /* ExtTableViewController.swift */,
+				2B72E3041D5D807700F2A4E1 /* ExtNavigationController.swift */,
 			);
-			name = SwiftEssential;
-			path = ../SwiftEssential;
+			name = Extension;
+			sourceTree = "<group>";
+		};
+		2B72E30A1D5D833A00F2A4E1 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				2B72E3061D5D80FE00F2A4E1 /* UIVerticalAlignLabel.swift */,
+			);
+			name = UIKit;
 			sourceTree = "<group>";
 		};
 		2BC8547B1D0A8A0100774A98 = {
@@ -201,10 +237,14 @@
 				2B555ABC1D0AAF5700848413 /* ExtView.swift in Sources */,
 				2B555AB91D0AAF5700848413 /* Device.swift in Sources */,
 				2B555ABA1D0AAF5700848413 /* ExtColor.swift in Sources */,
+				2B72E3011D5D7FDB00F2A4E1 /* ExtDate.swift in Sources */,
 				2B555ABB1D0AAF5700848413 /* ExtString.swift in Sources */,
 				2B555ABD1D0AAF5700848413 /* Logger.swift in Sources */,
 				2B555ABF1D0AB21B00848413 /* ExtImage.swift in Sources */,
+				2B72E3031D5D803D00F2A4E1 /* ExtTableViewController.swift in Sources */,
+				2B72E3071D5D80FE00F2A4E1 /* UIVerticalAlignLabel.swift in Sources */,
 				2BF978B31D0AAA8000FE0C72 /* AppDelegate.swift in Sources */,
+				2B72E3051D5D807700F2A4E1 /* ExtNavigationController.swift in Sources */,
 				2BF978B81D0AAA8000FE0C72 /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
