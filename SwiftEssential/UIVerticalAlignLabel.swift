@@ -5,13 +5,13 @@ import UIKit
 
 public class UIVerticalAlignLabel: UILabel {
 
-    enum VerticalAlignment : Int {
+    public enum VerticalAlignment : Int {
         case VerticalAlignmentTop = 0
         case VerticalAlignmentMiddle = 1
         case VerticalAlignmentBottom = 2
     }
 
-    var verticalAlignment : VerticalAlignment = .VerticalAlignmentTop {
+    public var verticalAlignment : VerticalAlignment = .VerticalAlignmentTop {
         didSet {
             setNeedsDisplay()
         }
