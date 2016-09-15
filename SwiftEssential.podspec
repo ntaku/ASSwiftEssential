@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/ntaku/SwiftEssential.git", :tag => "#{s.version}" }
   s.source_files = "SwiftEssential/*.{swift}"
   s.pod_target_xcconfig = {
-        'OTHER_SWIFT_FLAGS[config=Debug]' => '-D DEBUG'
+        'OTHER_SWIFT_FLAGS[config=Debug]' => '-D DEBUG',
         'SWIFT_VERSION' => '3.0'
   }
 end
