@@ -5,14 +5,14 @@ import UIKit
 public extension UITableViewCell {
 
     public func removeMargins() {
-        if self.respondsToSelector(Selector("setSeparatorInset:")) {
-            self.separatorInset = UIEdgeInsetsZero
+        if self.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
+            self.separatorInset = UIEdgeInsets.zero
         }
-        if self.respondsToSelector(Selector("setPreservesSuperviewLayoutMargins:")) {
+        if self.responds(to: #selector(setter: UIView.preservesSuperviewLayoutMargins)) {
             self.preservesSuperviewLayoutMargins = false
         }
-        if self.respondsToSelector(Selector("setLayoutMargins:")) {
-            self.layoutMargins = UIEdgeInsetsZero
+        if self.responds(to: #selector(setter: UIView.layoutMargins)) {
+            self.layoutMargins = UIEdgeInsets.zero
         }
     }
 }

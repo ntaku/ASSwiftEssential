@@ -13,7 +13,6 @@
 		2B555ABC1D0AAF5700848413 /* ExtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B555AB71D0AAF5700848413 /* ExtView.swift */; };
 		2B555ABD1D0AAF5700848413 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B555AB81D0AAF5700848413 /* Logger.swift */; };
 		2B555ABF1D0AB21B00848413 /* ExtImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B555ABE1D0AB21B00848413 /* ExtImage.swift */; };
-		2B72E3011D5D7FDB00F2A4E1 /* ExtDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B72E3001D5D7FDB00F2A4E1 /* ExtDate.swift */; };
 		2B72E3031D5D803D00F2A4E1 /* ExtTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B72E3021D5D803D00F2A4E1 /* ExtTableViewController.swift */; };
 		2B72E3051D5D807700F2A4E1 /* ExtNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B72E3041D5D807700F2A4E1 /* ExtNavigationController.swift */; };
 		2B72E3071D5D80FE00F2A4E1 /* UIVerticalAlignLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B72E3061D5D80FE00F2A4E1 /* UIVerticalAlignLabel.swift */; };
@@ -36,7 +35,6 @@
 		2B555AB71D0AAF5700848413 /* ExtView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtView.swift; sourceTree = "<group>"; };
 		2B555AB81D0AAF5700848413 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		2B555ABE1D0AB21B00848413 /* ExtImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtImage.swift; sourceTree = "<group>"; };
-		2B72E3001D5D7FDB00F2A4E1 /* ExtDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtDate.swift; sourceTree = "<group>"; };
 		2B72E3021D5D803D00F2A4E1 /* ExtTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtTableViewController.swift; sourceTree = "<group>"; };
 		2B72E3041D5D807700F2A4E1 /* ExtNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtNavigationController.swift; sourceTree = "<group>"; };
 		2B72E3061D5D80FE00F2A4E1 /* UIVerticalAlignLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIVerticalAlignLabel.swift; sourceTree = "<group>"; };
@@ -92,7 +90,6 @@
 				2B555AB61D0AAF5700848413 /* ExtString.swift */,
 				2B555AB71D0AAF5700848413 /* ExtView.swift */,
 				2B555ABE1D0AB21B00848413 /* ExtImage.swift */,
-				2B72E3001D5D7FDB00F2A4E1 /* ExtDate.swift */,
 				2B72E3021D5D803D00F2A4E1 /* ExtTableViewController.swift */,
 				2B72E3041D5D807700F2A4E1 /* ExtNavigationController.swift */,
 			);
@@ -190,6 +187,7 @@
 				TargetAttributes = {
 					2BC854831D0A8A0100774A98 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -237,7 +235,6 @@
 				2B555ABC1D0AAF5700848413 /* ExtView.swift in Sources */,
 				2B555AB91D0AAF5700848413 /* Device.swift in Sources */,
 				2B555ABA1D0AAF5700848413 /* ExtColor.swift in Sources */,
-				2B72E3011D5D7FDB00F2A4E1 /* ExtDate.swift in Sources */,
 				2B555ABB1D0AAF5700848413 /* ExtString.swift in Sources */,
 				2B555ABD1D0AAF5700848413 /* Logger.swift in Sources */,
 				2B555ABF1D0AB21B00848413 /* ExtImage.swift in Sources */,
@@ -370,6 +367,7 @@
 				PRODUCT_NAME = EssentialDemo;
 				SWIFT_OBJC_BRIDGING_HEADER = "EssentialDemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -384,6 +382,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ntaku.ASSwiftEssentialDemo;
 				PRODUCT_NAME = EssentialDemo;
 				SWIFT_OBJC_BRIDGING_HEADER = "EssentialDemo-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

@@ -5,7 +5,7 @@ import UIKit
 public extension UIColor {
 
     // 0x000000 の書式でカラーを取得
-    public class func color(hex : Int, alpha : CGFloat = 1.0) -> UIColor {
+    public class func color(_ hex : Int, alpha : CGFloat = 1.0) -> UIColor {
         let r = CGFloat((hex & 0xFF0000) >> 16) / 255.0
         let g = CGFloat((hex & 0x00FF00) >> 8) / 255.0
         let b = CGFloat(hex & 0x0000FF) / 255.0
@@ -13,27 +13,27 @@ public extension UIColor {
     }
 
     // "0x000000" の書式でカラーを取得
-    public class func colorString(string: String, alpha: CGFloat = 1.0) -> UIColor {
+    public class func colorString(_ string: String, alpha: CGFloat = 1.0) -> UIColor {
         let range = NSMakeRange(0, string.characters.count)
-        let hex = (string as NSString).stringByReplacingOccurrencesOfString("[^0-9a-fA-F]", withString: "", options: NSStringCompareOptions.RegularExpressionSearch, range: range)
+        let hex = (string as NSString).replacingOccurrences(of: "[^0-9a-fA-F]", with: "", options: NSString.CompareOptions.regularExpression, range: range)
         var c: UInt32 = 0
-        NSScanner(string: hex).scanHexInt(&c)
+        Scanner(string: hex).scanHexInt32(&c)
         return color(Int(c), alpha: alpha)
     }
 
     // 現在のカラーを "0x000000" の書式で取得
     public func toString() -> String? {
-        return self.CGColor.toString()
+        return self.cgColor.toString()
     }
 
     // 現在のカラーの成分要素を取得
     public func toRGBA() -> (red: Int, green: Int, blue: Int, alpha: CGFloat)? {
-        return self.CGColor.toRGBA()
+        return self.cgColor.toRGBA()
     }
 }
 
 public extension CGColor {
-    
+
     public func toString() -> String? {
         if let x = self.toRGBA() {
             let hex = x.red * 0x10000 + x.green * 0x100 + x.blue
@@ -42,16 +42,16 @@ public extension CGColor {
             return nil
         }
     }
-    
+
     public func toRGBA() -> (red: Int, green: Int, blue: Int, alpha: CGFloat)? {
-        let colorSpace = CGColorGetColorSpace(self)
-        let colorSpaceModel = CGColorSpaceGetModel(colorSpace)
-        if colorSpaceModel.rawValue == 1 {
-            let x = CGColorGetComponents(self)
-            let r: Int = Int(x[0] * 255.0)
-            let g: Int = Int(x[1] * 255.0)
-            let b: Int = Int(x[2] * 255.0)
-            let a: CGFloat = x[3]
+        let colorSpace = self.colorSpace
+        let colorSpaceModel = colorSpace?.model
+        if colorSpaceModel?.rawValue == 1 {
+            let x = self.components
+            let r: Int = Int(x![0] * 255.0)
+            let g: Int = Int(x![1] * 255.0)
+            let b: Int = Int(x![2] * 255.0)
+            let a: CGFloat = x![3]
             return (r, g, b, a)
         } else {
             return nil

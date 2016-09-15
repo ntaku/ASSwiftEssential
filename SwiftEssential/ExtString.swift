@@ -3,7 +3,7 @@ import Foundation
 import UIKit
 
 public extension String {
-    
+
     public var length: Int {
         return self.characters.count
     }
@@ -11,15 +11,15 @@ public extension String {
     /**
      セパレーターで分割
      */
-    public func split(separator: String) -> [String] {
-        return self.componentsSeparatedByString(separator)
+    public func split(_ separator: String) -> [String] {
+        return self.components(separatedBy: separator)
     }
 
     /**
      文字列置換
      */
-    public func gsub(from: String, to: String) -> String {
-        return self.stringByReplacingOccurrencesOfString(from, withString: to)
+    public func gsub(_ from: String, to: String) -> String {
+        return self.replacingOccurrences(of: from, with: to)
     }
 
     /**
@@ -29,14 +29,14 @@ public extension String {
         var str = ""
         for c in unicodeScalars {
             if c.value >= 0x3041 && c.value <= 0x3096 {
-                str.append(UnicodeScalar(c.value+96))
+                str.append(String(describing: UnicodeScalar(c.value+96)))
             } else {
-                str.append(c)
+                str.append(String(c))
             }
         }
         return str
     }
-    
+
     /**
      ひらがなに変換
      */
@@ -44,39 +44,39 @@ public extension String {
         var str = ""
         for c in unicodeScalars {
             if c.value >= 0x30A1 && c.value <= 0x30F6 {
-                str.append(UnicodeScalar(c.value-96))
+                str.append(String(describing: UnicodeScalar(c.value-96)))
             } else {
-                str.append(c)
+                str.append(String(c))
             }
         }
         return str
     }
-    
-    public func height(font: UIFont) -> CGFloat {
-        return self.boundingRect(font, size: CGSizeMake(CGFloat.max, CGFloat.max)).size.height
+
+    public func height(_ font: UIFont) -> CGFloat {
+        return self.boundingRect(font, size: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).size.height
     }
 
-    public func boundingHeight(font: UIFont, width: CGFloat) -> CGFloat {
-        return self.boundingRect(font, size: CGSizeMake(width, CGFloat.max)).size.height
+    public func boundingHeight(_ font: UIFont, width: CGFloat) -> CGFloat {
+        return self.boundingRect(font, size: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)).size.height
     }
 
-    public func width(font: UIFont) -> CGFloat {
-        return self.boundingRect(font, size: CGSizeMake(CGFloat.max, CGFloat.max)).size.width
+    public func width(_ font: UIFont) -> CGFloat {
+        return self.boundingRect(font, size: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).size.width
     }
 
-    public func boundingWidth(font: UIFont, height: CGFloat) -> CGFloat {
-        return self.boundingRect(font, size: CGSizeMake(CGFloat.max, height)).size.width
+    public func boundingWidth(_ font: UIFont, height: CGFloat) -> CGFloat {
+        return self.boundingRect(font, size: CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)).size.width
     }
-    
-    public func boundingRect(font: UIFont, size: CGSize) -> CGRect {
+
+    public func boundingRect(_ font: UIFont, size: CGSize) -> CGRect {
         let s = self as NSString
-        
-        let option = NSStringDrawingOptions.UsesLineFragmentOrigin
+
+        let option = NSStringDrawingOptions.usesLineFragmentOrigin
         let attr = [NSFontAttributeName: font]
-        
-        return s.boundingRectWithSize(size,
-                                      options: option,
-                                      attributes: attr,
-                                      context: nil)
+
+        return s.boundingRect(with: size,
+                              options: option,
+                              attributes: attr,
+                              context: nil)
     }
 }

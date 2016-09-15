@@ -20,7 +20,7 @@ class ViewController: UIViewController {
         Logger.d("length = \("test test test".length)")
         Logger.d("test test test".split(" ").description)
         Logger.d("test test test".gsub(" ", to: ""))
-        Logger.d("\("test test".boundingHeight(UIFont.systemFontOfSize(12), width: 30))")
+        Logger.d("\("test test".boundingHeight(UIFont.systemFont(ofSize: 12), width: 30))")
         
         // ExtColor
         let color1 = UIColor.color(0x66C8F8)
@@ -29,13 +29,13 @@ class ViewController: UIViewController {
         Logger.d(color2.toRGBA().debugDescription)
 
         // Sample view
-        let w = CGRectGetWidth(self.view.bounds)
+        let w = self.view.bounds.width
 
-        v1 = UIView.init(frame: CGRectMake(0, 0, w, 50))
+        v1 = UIView.init(frame: CGRect(x: 0, y: 0, width: w, height: 50))
         v1.backgroundColor = color1
         self.view.addSubview(v1)
 
-        v2 = UIView.init(frame: CGRectMake(0, 50, w, 50))
+        v2 = UIView.init(frame: CGRect(x: 0, y: 50, width: w, height: 50))
         v2.backgroundColor = color2
         self.view.addSubview(v2)
         
@@ -84,15 +84,15 @@ class ViewController: UIViewController {
     }
 
     func createNavibar() {
-        self.navigationController?.navigationBar.translucent = false
+        self.navigationController?.navigationBar.isTranslucent = false
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(title: "action",
-                                                                     style: .Plain,
+                                                                     style: .plain,
                                                                      target: self,
                                                                      action: #selector(actionLeft))
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "action",
-                                                                      style: .Plain,
+                                                                      style: .plain,
                                                                       target: self,
                                                                       action: #selector(actionRight))
     }

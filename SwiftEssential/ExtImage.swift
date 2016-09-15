@@ -3,18 +3,18 @@ import Foundation
 import UIKit
 
 public extension UIImage {
-    
+
     /**
      JPGに変換
      */
-    public func toJpeg(quality: CGFloat) -> NSData? {
+    public func toJpeg(_ quality: CGFloat) -> Data? {
         return UIImageJPEGRepresentation(self, quality)
     }
 
     /**
      PNGに変換
      */
-    public func toPng() -> NSData? {
+    public func toPng() -> Data? {
         return UIImagePNGRepresentation(self)
     }
 
@@ -28,204 +28,204 @@ public extension UIImage {
 
         let sx = self.size.width/2 - size/2
         let sy = self.size.height/2 - size/2
-        let rect = CGRectMake(sx, sy, size, size)
+        let rect = CGRect(x: sx, y: sy, width: size, height: size)
 
         return self.crop(rect)
     }
-    
+
     /**
      指定した位置をクロップ
-    */
-    public func crop(bounds: CGRect) -> UIImage {
-        let cgImage = CGImageCreateWithImageInRect(self.CGImage, bounds)
-        return UIImage.init(CGImage: cgImage!)
+     */
+    public func crop(_ bounds: CGRect) -> UIImage {
+        let cgImage = self.cgImage?.cropping(to: bounds)
+        return UIImage.init(cgImage: cgImage!)
     }
 
     /**
      画像を標準の向きに修正する
      */
     public func fixOrientationUp() -> UIImage {
-        if self.imageOrientation == .Up {
+        if self.imageOrientation == .up {
             return self
         }
-        
+
         let transform = self.transformForOrientation(self.size)
-        let imageRef = self.CGImage
-        
-        let ctx = CGBitmapContextCreate(nil,
-                                        Int(self.size.width),
-                                        Int(self.size.height),
-                                        CGImageGetBitsPerComponent(imageRef),
-                                        0,
-                                        CGImageGetColorSpace(self.CGImage),
-                                        CGImageGetBitmapInfo(self.CGImage).rawValue)
-        CGContextConcatCTM(ctx, transform)
- 
+        let imageRef = self.cgImage
+
+        let ctx = CGContext(data: nil,
+                            width: Int(self.size.width),
+                            height: Int(self.size.height),
+                            bitsPerComponent: (imageRef?.bitsPerComponent)!,
+                            bytesPerRow: 0,
+                            space: (self.cgImage?.colorSpace!)!,
+                            bitmapInfo: (self.cgImage?.bitmapInfo.rawValue)!)
+        ctx?.concatenate(transform)
+
         switch self.imageOrientation {
-        case .Left: fallthrough
-        case .LeftMirrored: fallthrough
-        case .Right: fallthrough
-        case .RightMirrored:
-            CGContextDrawImage(ctx, CGRectMake(0,0,self.size.height,self.size.width), imageRef)
+        case .left: fallthrough
+        case .leftMirrored: fallthrough
+        case .right: fallthrough
+        case .rightMirrored:
+            ctx?.draw(imageRef!, in: CGRect(x: 0,y: 0,width: self.size.height,height: self.size.width))
             break
         default:
-            CGContextDrawImage(ctx, CGRectMake(0,0,self.size.width,self.size.height), imageRef)
+            ctx?.draw(imageRef!, in: CGRect(x: 0,y: 0,width: self.size.width,height: self.size.height))
             break
         }
-        
-        let cgimg = CGBitmapContextCreateImage(ctx)
-        return UIImage.init(CGImage: cgimg!)
+
+        let cgimg = ctx?.makeImage()
+        return UIImage.init(cgImage: cgimg!)
     }
 
     /**
      長辺が指定したサイズになるように自動リサイズ
-    */
-    public func autoResize(maxsize: CGFloat) -> UIImage {
+     */
+    public func autoResize(_ maxsize: CGFloat) -> UIImage {
         if(maxsize > 0){
             let ratio = maxsize / max(self.size.width, self.size.height)
-            var size = CGSizeMake(self.size.width * ratio, self.size.height * ratio)
-            
+            var size = CGSize(width: self.size.width * ratio, height: self.size.height * ratio)
+
             // オリジナルが設定より小さい場合
             if self.size.width <= size.width && self.size.height <= size.height {
                 size = self.size
             }
-            return resize(size, quality: .High)
+            return resize(size, quality: .high)
         }
-        return resize(self.size, quality: .High)
+        return resize(self.size, quality: .high)
     }
 
     /**
      リサイズ
      */
-    public func resize(size: CGSize,
+    public func resize(_ size: CGSize,
                        quality: CGInterpolationQuality,
                        contentMode: UIViewContentMode) -> UIImage {
-        
+
         let horizontalRatio = size.width / self.size.width
         let verticalRatio = size.height / self.size.height
         let ratio: CGFloat
-        
+
         switch contentMode {
-        case .ScaleAspectFit:
+        case .scaleAspectFit:
             ratio = min(horizontalRatio, verticalRatio)
             break
-        case .ScaleAspectFill: fallthrough
+        case .scaleAspectFill: fallthrough
         default:
             ratio = max(horizontalRatio, verticalRatio)
             break
         }
-        
-        let newSize = CGSizeMake(self.size.width * ratio, self.size.height * ratio)
+
+        let newSize = CGSize(width: self.size.width * ratio, height: self.size.height * ratio)
         return self.resize(newSize, quality: quality)
     }
 
     /**
      リサイズ
      */
-    public func resize(size: CGSize,
+    public func resize(_ size: CGSize,
                        quality: CGInterpolationQuality) -> UIImage {
 
         var drawTransposed = false
-    
+
         switch(self.imageOrientation){
-        case .Left: fallthrough
-        case .LeftMirrored: fallthrough
-        case .Right: fallthrough
-        case .RightMirrored:
+        case .left: fallthrough
+        case .leftMirrored: fallthrough
+        case .right: fallthrough
+        case .rightMirrored:
             drawTransposed = true
             break
         default:
             drawTransposed = false
         }
-    
+
         return self.resize(size,
                            quality: quality,
                            transform: self.transformForOrientation(size),
                            transpose: drawTransposed)
     }
 
-    private func resize(size: CGSize,
-                quality: CGInterpolationQuality,
-                transform: CGAffineTransform,
-                transpose: Bool) -> UIImage {
+    fileprivate func resize(_ size: CGSize,
+                            quality: CGInterpolationQuality,
+                            transform: CGAffineTransform,
+                            transpose: Bool) -> UIImage {
 
-        let newRect = CGRectIntegral(CGRectMake(0, 0, size.width, size.height))
-        let transposedRect = CGRectMake(0, 0, newRect.size.height, newRect.size.width)
-        let imageRef = self.CGImage
-    
-        let bitmapInfo = CGImageGetBitmapInfo(imageRef)
+        let newRect = CGRect(x: 0, y: 0, width: size.width, height: size.height).integral
+        let transposedRect = CGRect(x: 0, y: 0, width: newRect.size.height, height: newRect.size.width)
+        let imageRef = self.cgImage
+
+        let bitmapInfo = imageRef?.bitmapInfo
         let colorSpace = CGColorSpaceCreateDeviceRGB()
-    
-        let bitmap = CGBitmapContextCreate(nil,
-                                           Int(newRect.size.width),
-                                           Int(newRect.size.height),
-                                           CGImageGetBitsPerComponent(imageRef),
-                                           0,
-                                           colorSpace,
-                                           bitmapInfo.rawValue)
-        
+
+        let bitmap = CGContext(data: nil,
+                               width: Int(newRect.size.width),
+                               height: Int(newRect.size.height),
+                               bitsPerComponent: (imageRef?.bitsPerComponent)!,
+                               bytesPerRow: 0,
+                               space: colorSpace,
+                               bitmapInfo: (bitmapInfo?.rawValue)!)
+
         // Rotate and/or flip the image if required by its orientation
-        CGContextConcatCTM(bitmap, transform)
-    
+        bitmap?.concatenate(transform)
+
         // Set the quality level to use when rescaling
-        CGContextSetInterpolationQuality(bitmap, quality)
-    
+        bitmap!.interpolationQuality = quality
+
         // Draw into the context this scales the image
-        CGContextDrawImage(bitmap, transpose ? transposedRect : newRect, imageRef)
-    
+        bitmap?.draw(imageRef!, in: transpose ? transposedRect : newRect)
+
         // Get the resized image from the context and a UIImage
-        let cgImageRef = CGBitmapContextCreateImage(bitmap)
-        return UIImage.init(CGImage: cgImageRef!)
+        let cgImageRef = bitmap?.makeImage()
+        return UIImage.init(cgImage: cgImageRef!)
     }
-    
+
     /**
      画像を正しい向きにするためのTransformを取得
      */
-    private func transformForOrientation(newSize: CGSize) -> CGAffineTransform {
-        var transform = CGAffineTransformIdentity
-        
+    fileprivate func transformForOrientation(_ newSize: CGSize) -> CGAffineTransform {
+        var transform = CGAffineTransform.identity
+
         switch self.imageOrientation {
-        case .Down: fallthrough       // EXIF = 3
-        case .DownMirrored:           // EXIF = 4
-            transform = CGAffineTransformTranslate(transform, newSize.width, newSize.height)
-            transform = CGAffineTransformRotate(transform, CGFloat(M_PI))
+        case .down: fallthrough       // EXIF = 3
+        case .downMirrored:           // EXIF = 4
+            transform = transform.translatedBy(x: newSize.width, y: newSize.height)
+            transform = transform.rotated(by: CGFloat(M_PI))
             break
-            
-        case .Left: fallthrough       // EXIF = 6
-        case .LeftMirrored:           // EXIF = 5
-            transform = CGAffineTransformTranslate(transform, newSize.width, 0)
-            transform = CGAffineTransformRotate(transform, CGFloat(M_PI_2))
+
+        case .left: fallthrough       // EXIF = 6
+        case .leftMirrored:           // EXIF = 5
+            transform = transform.translatedBy(x: newSize.width, y: 0)
+            transform = transform.rotated(by: CGFloat(M_PI_2))
             break
-            
-        case .Right: fallthrough      // EXIF = 8
-        case .RightMirrored:          // EXIF = 7
-            transform = CGAffineTransformTranslate(transform, 0, newSize.height)
-            transform = CGAffineTransformRotate(transform, CGFloat(-M_PI_2))
+
+        case .right: fallthrough      // EXIF = 8
+        case .rightMirrored:          // EXIF = 7
+            transform = transform.translatedBy(x: 0, y: newSize.height)
+            transform = transform.rotated(by: CGFloat(-M_PI_2))
             break
-            
-        case .Up: fallthrough
-        case .UpMirrored: fallthrough
+
+        case .up: fallthrough
+        case .upMirrored: fallthrough
         default:
             break
         }
-        
+
         switch self.imageOrientation {
-        case .UpMirrored: fallthrough    // EXIF = 2
-        case .DownMirrored:              // EXIF = 4
-            transform = CGAffineTransformTranslate(transform, newSize.width, 0)
-            transform = CGAffineTransformScale(transform, -1, 1)
+        case .upMirrored: fallthrough    // EXIF = 2
+        case .downMirrored:              // EXIF = 4
+            transform = transform.translatedBy(x: newSize.width, y: 0)
+            transform = transform.scaledBy(x: -1, y: 1)
             break;
-            
-        case .LeftMirrored: fallthrough  // EXIF = 5
-        case .RightMirrored:             // EXIF = 7
-            transform = CGAffineTransformTranslate(transform, newSize.height, 0)
-            transform = CGAffineTransformScale(transform, -1, 1)
+
+        case .leftMirrored: fallthrough  // EXIF = 5
+        case .rightMirrored:             // EXIF = 7
+            transform = transform.translatedBy(x: newSize.height, y: 0)
+            transform = transform.scaledBy(x: -1, y: 1)
             break;
-            
-        case .Up: fallthrough
-        case .Down: fallthrough
-        case .Left: fallthrough
-        case .Right: fallthrough
+
+        case .up: fallthrough
+        case .down: fallthrough
+        case .left: fallthrough
+        case .right: fallthrough
         default:
             break
         }
@@ -234,15 +234,15 @@ public extension UIImage {
 
     public func orientationString() -> String {
         switch self.imageOrientation {
-        case .Up:               return "Up"
-        case .Down:             return "Down"
-        case .Left:             return "Left"
-        case .Right:            return "Right"
-        case .UpMirrored:       return "UpMirrored"
-        case .DownMirrored:     return "DownMirrored"
-        case .LeftMirrored:     return "LeftMirrored"
-        case .RightMirrored:    return "RightMirrored"
+        case .up:               return "Up"
+        case .down:             return "Down"
+        case .left:             return "Left"
+        case .right:            return "Right"
+        case .upMirrored:       return "UpMirrored"
+        case .downMirrored:     return "DownMirrored"
+        case .leftMirrored:     return "LeftMirrored"
+        case .rightMirrored:    return "RightMirrored"
         }
     }
-    
+
 }

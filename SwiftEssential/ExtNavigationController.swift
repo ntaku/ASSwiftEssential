@@ -4,15 +4,15 @@ import UIKit
 
 public extension UINavigationController {
 
-    public override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return self.topViewController?.preferredStatusBarStyle() ?? .Default
+    open override var preferredStatusBarStyle : UIStatusBarStyle {
+        return self.topViewController?.preferredStatusBarStyle ?? .default
     }
 
-    public override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return self.topViewController?.supportedInterfaceOrientations() ?? .All
+    open override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return self.topViewController?.supportedInterfaceOrientations ?? .all
     }
 
-    public override func shouldAutorotate() -> Bool {
-        return self.topViewController?.shouldAutorotate() ?? true
+    open override var shouldAutorotate : Bool {
+        return self.topViewController?.shouldAutorotate ?? true
     }
 }
