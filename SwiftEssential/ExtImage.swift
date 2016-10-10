@@ -5,6 +5,19 @@ import UIKit
 public extension UIImage {
 
     /**
+     指定色/サイズの画像を生成する
+     */
+    public class func image(from color: UIColor, size: CGSize) -> UIImage {
+        let rect: CGRect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: size.width, height: size.height), false, 0)
+        color.setFill()
+        UIRectFill(rect)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
+    }
+
+    /**
      JPGに変換
      */
     public func toJpeg(_ quality: CGFloat) -> Data? {
