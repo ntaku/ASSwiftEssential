@@ -30,13 +30,13 @@ public extension UIImage {
         let sy = self.size.height/2 - size/2
         let rect = CGRect(x: sx, y: sy, width: size, height: size)
 
-        return self.crop(rect)
+        return self.crop(bounds: rect)
     }
 
     /**
      指定した位置をクロップ
      */
-    public func crop(_ bounds: CGRect) -> UIImage {
+    public func crop(bounds: CGRect) -> UIImage {
         let cgImage = self.cgImage?.cropping(to: bounds)
         return UIImage.init(cgImage: cgImage!)
     }

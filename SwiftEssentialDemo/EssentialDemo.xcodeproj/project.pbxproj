@@ -86,9 +86,9 @@
 		2B72E3091D5D833100F2A4E1 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				2B555AB71D0AAF5700848413 /* ExtView.swift */,
 				2B555AB51D0AAF5700848413 /* ExtColor.swift */,
 				2B555AB61D0AAF5700848413 /* ExtString.swift */,
-				2B555AB71D0AAF5700848413 /* ExtView.swift */,
 				2B555ABE1D0AB21B00848413 /* ExtImage.swift */,
 				2B72E3021D5D803D00F2A4E1 /* ExtTableViewController.swift */,
 				2B72E3041D5D807700F2A4E1 /* ExtNavigationController.swift */,

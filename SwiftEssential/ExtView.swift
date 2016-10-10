@@ -10,47 +10,47 @@ public extension UIView {
         }
     }
 
-    public func hasView(_ view: UIView) -> Bool {
+    public func has(view: UIView) -> Bool {
         return !self.isDescendant(of: view)
     }
 
-    public func isSubviewOf(_ view: UIView) -> Bool {
+    public func isSubview(of view: UIView) -> Bool {
         return self.isDescendant(of: view)
     }
 
-    public func setPoint(_ point: CGPoint) {
+    public func set(point: CGPoint) {
         var r : CGRect = self.frame
         r.origin = point
         self.frame = r
     }
 
-    public func setX(_ x: CGFloat) {
+    public func set(x: CGFloat) {
         var r : CGRect = self.frame
         r.origin.x = x
         self.frame = r
     }
 
-    public func setY(_ y: CGFloat) {
+    public func set(y: CGFloat) {
         var r : CGRect = self.frame
         r.origin.y = y
         self.frame = r
     }
 
-    public func setSize(_ size: CGSize) {
+    public func set(size: CGSize) {
         var r : CGRect = self.frame
         r.size = size
         self.frame = r
     }
 
-    public func setW(_ w: CGFloat) {
+    public func set(width: CGFloat) {
         var r : CGRect = self.frame
-        r.size.width = w
+        r.size.width = width
         self.frame = r
     }
 
-    public func setH(_ h: CGFloat) {
+    public func set(height: CGFloat) {
         var r : CGRect = self.frame
-        r.size.height = h
+        r.size.height = height
         self.frame = r
     }
 }
