@@ -17,12 +17,9 @@ open class Logger {
     }
 
     // Error log
-    open class func e(_ error: NSError?, function: String = #function, file: String = #file) {
-        if let e = error {
-            dump("\(e.description)", function: function, file: file)
-        }else{
-            dump("error is nil", function: function, file: file)
-        }
+    open class func e(_ error: Error, function: String = #function, file: String = #file) {
+        dump("[ERROR]", function: function, file: file)
+        dPrint(error)
     }
 
     fileprivate class func dump(_ message: String, function: String = #function, file: String = #file) {
