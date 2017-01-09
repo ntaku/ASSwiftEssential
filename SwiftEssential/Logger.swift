@@ -10,6 +10,12 @@ open class Logger {
         dump("\(message)", function: function, file: file)
     }
 
+    open class func dPrint(_ items: Any...) {
+        #if DEBUG
+        debugPrint(items)
+        #endif
+    }
+
     // Error log
     open class func e(_ error: NSError?, function: String = #function, file: String = #file) {
         if let e = error {

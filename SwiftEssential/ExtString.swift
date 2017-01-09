@@ -67,7 +67,11 @@ public extension String {
         var str = ""
         for c in unicodeScalars {
             if c.value >= 0x3041 && c.value <= 0x3096 {
-                str.append(String(describing: UnicodeScalar(c.value+96)))
+                if let u = UnicodeScalar(c.value+96) {
+                    str.append(String(describing: u))
+                } else {
+                    str.append(String(c))
+                }
             } else {
                 str.append(String(c))
             }
@@ -82,7 +86,11 @@ public extension String {
         var str = ""
         for c in unicodeScalars {
             if c.value >= 0x30A1 && c.value <= 0x30F6 {
-                str.append(String(describing: UnicodeScalar(c.value-96)))
+                if let u = UnicodeScalar(c.value-96) {
+                    str.append(String(describing: u))
+                } else {
+                    str.append(String(c))
+                }
             } else {
                 str.append(String(c))
             }
