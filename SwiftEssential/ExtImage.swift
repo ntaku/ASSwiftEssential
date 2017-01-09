@@ -5,33 +5,6 @@ import UIKit
 public extension UIImage {
 
     /**
-     指定色/サイズの画像を生成する
-     */
-    public class func image(from color: UIColor, size: CGSize) -> UIImage {
-        let rect: CGRect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        UIGraphicsBeginImageContextWithOptions(CGSize(width: size.width, height: size.height), false, 0)
-        color.setFill()
-        UIRectFill(rect)
-        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        return image
-    }
-
-    /**
-     JPGに変換
-     */
-    public func toJpeg(_ quality: CGFloat) -> Data? {
-        return UIImageJPEGRepresentation(self, quality)
-    }
-
-    /**
-     PNGに変換
-     */
-    public func toPng() -> Data? {
-        return UIImagePNGRepresentation(self)
-    }
-
-    /**
      中心を正方形にクロップ
      */
     public func crop() -> UIImage {
@@ -55,42 +28,6 @@ public extension UIImage {
     }
 
     /**
-     画像を標準の向きに修正する
-     */
-    public func fixOrientationUp() -> UIImage {
-        if self.imageOrientation == .up {
-            return self
-        }
-
-        let transform = self.transformForOrientation(self.size)
-        let imageRef = self.cgImage
-
-        let ctx = CGContext(data: nil,
-                            width: Int(self.size.width),
-                            height: Int(self.size.height),
-                            bitsPerComponent: (imageRef?.bitsPerComponent)!,
-                            bytesPerRow: 0,
-                            space: (self.cgImage?.colorSpace!)!,
-                            bitmapInfo: (self.cgImage?.bitmapInfo.rawValue)!)
-        ctx?.concatenate(transform)
-
-        switch self.imageOrientation {
-        case .left: fallthrough
-        case .leftMirrored: fallthrough
-        case .right: fallthrough
-        case .rightMirrored:
-            ctx?.draw(imageRef!, in: CGRect(x: 0,y: 0,width: self.size.height,height: self.size.width))
-            break
-        default:
-            ctx?.draw(imageRef!, in: CGRect(x: 0,y: 0,width: self.size.width,height: self.size.height))
-            break
-        }
-
-        let cgimg = ctx?.makeImage()
-        return UIImage.init(cgImage: cgimg!)
-    }
-
-    /**
      長辺が指定したサイズになるように自動リサイズ
      */
     public func autoResize(_ maxsize: CGFloat) -> UIImage {
@@ -102,17 +39,15 @@ public extension UIImage {
             if self.size.width <= size.width && self.size.height <= size.height {
                 size = self.size
             }
-            return resize(size, quality: .high)
+            return resize(size)
         }
-        return resize(self.size, quality: .high)
+        return resize(self.size)
     }
 
     /**
-     リサイズ
+     アスペクト比を保ったまま自動リサイズ
      */
-    public func resize(_ size: CGSize,
-                       quality: CGInterpolationQuality,
-                       contentMode: UIViewContentMode) -> UIImage {
+    public func autoResize(_ size: CGSize, contentMode: UIViewContentMode) -> UIImage {
 
         let horizontalRatio = size.width / self.size.width
         let verticalRatio = size.height / self.size.height
@@ -129,15 +64,13 @@ public extension UIImage {
         }
 
         let newSize = CGSize(width: self.size.width * ratio, height: self.size.height * ratio)
-        return self.resize(newSize, quality: quality)
+        return self.resize(newSize)
     }
 
     /**
-     リサイズ
+     指定サイズでリサイズ
      */
-    public func resize(_ size: CGSize,
-                       quality: CGInterpolationQuality) -> UIImage {
-
+    public func resize(_ size: CGSize) -> UIImage {
         var drawTransposed = false
 
         switch(self.imageOrientation){
@@ -152,43 +85,104 @@ public extension UIImage {
         }
 
         return self.resize(size,
-                           quality: quality,
                            transform: self.transformForOrientation(size),
                            transpose: drawTransposed)
     }
 
+    /**
+     Orientationを考慮したリサイズ
+     */
     fileprivate func resize(_ size: CGSize,
-                            quality: CGInterpolationQuality,
                             transform: CGAffineTransform,
                             transpose: Bool) -> UIImage {
 
+        guard let imageRef = self.cgImage else { return self }
+
         let newRect = CGRect(x: 0, y: 0, width: size.width, height: size.height).integral
         let transposedRect = CGRect(x: 0, y: 0, width: newRect.size.height, height: newRect.size.width)
-        let imageRef = self.cgImage
 
-        let bitmapInfo = imageRef?.bitmapInfo
+        let bitmapInfo = self.normalizeBitmapInfo(oldBitmapInfo: imageRef.bitmapInfo)
         let colorSpace = CGColorSpaceCreateDeviceRGB()
 
-        let bitmap = CGContext(data: nil,
-                               width: Int(newRect.size.width),
-                               height: Int(newRect.size.height),
-                               bitsPerComponent: (imageRef?.bitsPerComponent)!,
+        if let bitmap = CGContext(data: nil,
+                                  width: Int(newRect.size.width),
+                                  height: Int(newRect.size.height),
+                                  bitsPerComponent: imageRef.bitsPerComponent,
+                                  bytesPerRow: 0,
+                                  space: colorSpace,
+                                  bitmapInfo: bitmapInfo.rawValue) {
+
+            bitmap.concatenate(transform)
+            bitmap.interpolationQuality = .high
+            bitmap.draw(imageRef, in: transpose ? transposedRect : newRect)
+
+            let cgImageRef = bitmap.makeImage()
+            return UIImage.init(cgImage: cgImageRef!)
+        }
+        return self
+    }
+
+    /**
+     画像を標準の向きに修正する
+     */
+    public func fixOrientationUp() -> UIImage {
+        if self.imageOrientation == .up {
+            return self
+        }
+        guard let imageRef = self.cgImage else { return self }
+
+        let transform = self.transformForOrientation(self.size)
+        let bitmapInfo = self.normalizeBitmapInfo(oldBitmapInfo: imageRef.bitmapInfo)
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+
+        if let ctx = CGContext(data: nil,
+                               width: Int(self.size.width),
+                               height: Int(self.size.height),
+                               bitsPerComponent: imageRef.bitsPerComponent,
                                bytesPerRow: 0,
                                space: colorSpace,
-                               bitmapInfo: (bitmapInfo?.rawValue)!)
+                               bitmapInfo: bitmapInfo.rawValue) {
 
-        // Rotate and/or flip the image if required by its orientation
-        bitmap?.concatenate(transform)
+            ctx.concatenate(transform)
 
-        // Set the quality level to use when rescaling
-        bitmap!.interpolationQuality = quality
+            switch self.imageOrientation {
+            case .left: fallthrough
+            case .leftMirrored: fallthrough
+            case .right: fallthrough
+            case .rightMirrored:
+                ctx.draw(imageRef, in: CGRect(x: 0,y: 0,width: self.size.height,height: self.size.width))
+                break
+            default:
+                ctx.draw(imageRef, in: CGRect(x: 0,y: 0,width: self.size.width,height: self.size.height))
+                break
+            }
 
-        // Draw into the context this scales the image
-        bitmap?.draw(imageRef!, in: transpose ? transposedRect : newRect)
+            if let cgimg = ctx.makeImage() {
+                return UIImage.init(cgImage: cgimg)
+            }
+        }
+        return self
+    }
 
-        // Get the resized image from the context and a UIImage
-        let cgImageRef = bitmap?.makeImage()
-        return UIImage.init(cgImage: cgImageRef!)
+    // http://stackoverflow.com/questions/5545600/iphone-cgcontextref-cgbitmapcontextcreate-unsupported-parameter-combination
+    fileprivate func normalizeBitmapInfo(oldBitmapInfo: CGBitmapInfo) -> CGBitmapInfo {
+
+        //extract the alpha info by resetting everything else
+        var alphaInfo = oldBitmapInfo.rawValue & CGBitmapInfo.alphaInfoMask.rawValue
+
+        //Since iOS8 it's not allowed anymore to create contexts with unmultiplied Alpha info
+        if alphaInfo == CGImageAlphaInfo.last.rawValue {
+            alphaInfo = CGImageAlphaInfo.premultipliedLast.rawValue
+        }
+        if alphaInfo == CGImageAlphaInfo.first.rawValue {
+            alphaInfo = CGImageAlphaInfo.premultipliedFirst.rawValue
+        }
+
+        //reset the bits and set the bits to the new alphaInfo
+        var newBitmapInfo = oldBitmapInfo.rawValue & ~CGBitmapInfo.alphaInfoMask.rawValue
+        newBitmapInfo |= alphaInfo
+
+        return CGBitmapInfo.init(rawValue: newBitmapInfo)
     }
 
     /**
@@ -258,4 +252,30 @@ public extension UIImage {
         }
     }
 
+    /**
+     JPGに変換
+     */
+    public func toJpeg(_ quality: CGFloat) -> Data? {
+        return UIImageJPEGRepresentation(self, quality)
+    }
+
+    /**
+     PNGに変換
+     */
+    public func toPng() -> Data? {
+        return UIImagePNGRepresentation(self)
+    }
+
+    /**
+     指定色/サイズの画像を生成する
+     */
+    public class func image(from color: UIColor, size: CGSize) -> UIImage {
+        let rect: CGRect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: size.width, height: size.height), false, 0)
+        color.setFill()
+        UIRectFill(rect)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
+    }
 }

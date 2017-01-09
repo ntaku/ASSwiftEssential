@@ -40,7 +40,7 @@ class ViewController: UIViewController {
         self.view.addSubview(v2)
         
         // ExtImage
-        /*
+/*
         var img = UIImage.init(named: "orientation_6.jpg")!
 
         let iw = self.view.bounds.width
@@ -48,7 +48,7 @@ class ViewController: UIViewController {
         let size = CGSize(width: iw*2, height: ih*2)
 
         Logger.d(img.orientationString())
-        img = img.resize(size, quality: .high, contentMode: .scaleAspectFit)
+        img = img.autoResize(size, contentMode: .scaleAspectFit)
         img = img.crop()
         Logger.d(img.orientationString())
         Logger.d(img.description)
@@ -58,7 +58,7 @@ class ViewController: UIViewController {
         imageView.contentMode = .scaleAspectFit
         imageView.image = img
         self.view.addSubview(imageView)
-        */
+*/
     }
     
     @objc func actionLeft() {
