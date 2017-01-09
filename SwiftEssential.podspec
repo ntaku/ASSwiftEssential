@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SwiftEssential"
-  s.version      = "1.10"
+  s.version      = "1.11"
   s.summary      = "Essential code for swift project"
   s.description  = "Essential code for swift project"
   s.homepage     = "https://github.com/ntaku/SwiftEssential"
