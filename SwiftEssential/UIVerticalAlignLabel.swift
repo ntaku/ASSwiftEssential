@@ -6,12 +6,12 @@ import UIKit
 open class UIVerticalAlignLabel: UILabel {
 
     public enum VerticalAlignment : Int {
-        case verticalAlignmentTop = 0
-        case verticalAlignmentMiddle = 1
-        case verticalAlignmentBottom = 2
+        case top = 0
+        case middle = 1
+        case bottom = 2
     }
 
-    open var verticalAlignment : VerticalAlignment = .verticalAlignmentTop {
+    open var verticalAlignment : VerticalAlignment = .top {
         didSet {
             setNeedsDisplay()
         }
@@ -21,7 +21,7 @@ open class UIVerticalAlignLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
     }
 
@@ -29,11 +29,11 @@ open class UIVerticalAlignLabel: UILabel {
         let rect = super.textRect(forBounds: bounds, limitedToNumberOfLines: limitedToNumberOfLines)
 
         switch(verticalAlignment) {
-        case .verticalAlignmentTop:
+        case .top:
             return CGRect(x: bounds.origin.x, y: bounds.origin.y, width: rect.size.width, height: rect.size.height)
-        case .verticalAlignmentMiddle:
+        case .middle:
             return CGRect(x: bounds.origin.x, y: bounds.origin.y + (bounds.size.height - rect.size.height) / 2, width: rect.size.width, height: rect.size.height)
-        case .verticalAlignmentBottom:
+        case .bottom:
             return CGRect(x: bounds.origin.x, y: bounds.origin.y + (bounds.size.height - rect.size.height), width: rect.size.width, height: rect.size.height)
         }
     }
