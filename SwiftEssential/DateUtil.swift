@@ -38,8 +38,13 @@ open class DateUtil {
         let weekday = components.weekday ?? 0
 
         if shortStyle {
-            return formatter.shortWeekdaySymbols[weekday]
+            if weekday < formatter.shortWeekdaySymbols.count {
+                return formatter.shortWeekdaySymbols[weekday]
+            }
         }
-        return formatter.weekdaySymbols[weekday]
+        if weekday < formatter.weekdaySymbols.count {
+            return formatter.weekdaySymbols[weekday]
+        }
+        return ""
     }
 }
