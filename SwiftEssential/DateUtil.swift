@@ -35,7 +35,7 @@ open class DateUtil {
         let formatter = DateFormatter()
 
         let components = cal.dateComponents([.weekday], from: date)
-        let weekday = components.weekday ?? 0
+        let weekday = (components.weekday ?? 1) - 1
 
         if shortStyle {
             if weekday < formatter.shortWeekdaySymbols.count {

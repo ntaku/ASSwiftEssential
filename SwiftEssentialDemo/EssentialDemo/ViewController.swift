@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     }
 
     func dateUtil() {
-        let date = DateUtil.date(year: 2017, month: 10, day: 1)
+        let date = DateUtil.date(year: 2017, month: 1, day: 28)
         Logger.d(DateUtil.formatString(date: date, format: "yyyy/M/dd"))
         Logger.d(DateUtil.weekdayName(date: date))
     }
