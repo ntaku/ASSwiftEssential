@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B0C8E6C1EDBE5B900486498 /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0C8E6B1EDBE5B900486498 /* DateUtil.swift */; };
 		2B555AB91D0AAF5700848413 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B555AB41D0AAF5700848413 /* Device.swift */; };
 		2B555ABA1D0AAF5700848413 /* ExtColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B555AB51D0AAF5700848413 /* ExtColor.swift */; };
 		2B555ABB1D0AAF5700848413 /* ExtString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B555AB61D0AAF5700848413 /* ExtString.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B0C8E6B1EDBE5B900486498 /* DateUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
 		2B555AB41D0AAF5700848413 /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		2B555AB51D0AAF5700848413 /* ExtColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtColor.swift; sourceTree = "<group>"; };
 		2B555AB61D0AAF5700848413 /* ExtString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtString.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 			children = (
 				2B555AB81D0AAF5700848413 /* Logger.swift */,
 				2B555AB41D0AAF5700848413 /* Device.swift */,
+				2B0C8E6B1EDBE5B900486498 /* DateUtil.swift */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 				2B72E3031D5D803D00F2A4E1 /* ExtTableViewController.swift in Sources */,
 				2B72E3071D5D80FE00F2A4E1 /* UIVerticalAlignLabel.swift in Sources */,
 				2BF978B31D0AAA8000FE0C72 /* AppDelegate.swift in Sources */,
+				2B0C8E6C1EDBE5B900486498 /* DateUtil.swift in Sources */,
 				2B72E3051D5D807700F2A4E1 /* ExtNavigationController.swift in Sources */,
 				2BF978B81D0AAA8000FE0C72 /* ViewController.swift in Sources */,
 			);

@@ -20,6 +20,13 @@ class ViewController: UIViewController {
         extDevice()
         extString()
         extColor()
+        dateUtil()
+    }
+
+    func dateUtil() {
+        let date = DateUtil.date(year: 2017, month: 10, day: 1)
+        Logger.d(DateUtil.formatString(date: date, format: "yyyy/M/dd"))
+        Logger.d(DateUtil.weekdayName(date: date))
     }
 
     func extDevice() {
