@@ -62,6 +62,11 @@ open class Device {
         return isPhone(width: 414, height: 736)
     }
 
+    // iPhone X
+    open static func isPhoneX() -> Bool {
+        return isPhone(width: 375, height: 812)
+    }
+
     fileprivate static func isPhone(width: CGFloat, height: CGFloat) -> Bool {
         if(isPad()) { return false }
         let w = UIScreen.main.bounds.width
