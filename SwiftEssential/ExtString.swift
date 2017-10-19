@@ -1,4 +1,3 @@
-
 import Foundation
 import UIKit
 
@@ -27,7 +26,7 @@ public extension String {
      */
     public func boundingRect(with font: UIFont, size: CGSize) -> CGRect {
         let option = NSStringDrawingOptions.usesLineFragmentOrigin
-        let attr = [NSFontAttributeName: font]
+        let attr = [NSAttributedStringKey.font: font]
 
         let s = self as NSString
         return s.boundingRect(with: size,

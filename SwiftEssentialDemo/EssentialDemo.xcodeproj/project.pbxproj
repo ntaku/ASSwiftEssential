@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2B0C8E6C1EDBE5B900486498 /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0C8E6B1EDBE5B900486498 /* DateUtil.swift */; };
+		2B126BC41F98710900DDF35B /* ExtDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B126BC31F98710900DDF35B /* ExtDouble.swift */; };
 		2B555AB91D0AAF5700848413 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B555AB41D0AAF5700848413 /* Device.swift */; };
 		2B555ABA1D0AAF5700848413 /* ExtColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B555AB51D0AAF5700848413 /* ExtColor.swift */; };
 		2B555ABB1D0AAF5700848413 /* ExtString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B555AB61D0AAF5700848413 /* ExtString.swift */; };
@@ -23,12 +24,12 @@
 		2BF978B41D0AAA8000FE0C72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BF978AC1D0AAA8000FE0C72 /* Assets.xcassets */; };
 		2BF978B51D0AAA8000FE0C72 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BF978AD1D0AAA8000FE0C72 /* LaunchScreen.storyboard */; };
 		2BF978B61D0AAA8000FE0C72 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BF978AF1D0AAA8000FE0C72 /* Main.storyboard */; };
-		2BF978B71D0AAA8000FE0C72 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BF978B11D0AAA8000FE0C72 /* Info.plist */; };
 		2BF978B81D0AAA8000FE0C72 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF978B21D0AAA8000FE0C72 /* ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2B0C8E6B1EDBE5B900486498 /* DateUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
+		2B126BC31F98710900DDF35B /* ExtDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtDouble.swift; sourceTree = "<group>"; };
 		2B555AB41D0AAF5700848413 /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		2B555AB51D0AAF5700848413 /* ExtColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtColor.swift; sourceTree = "<group>"; };
 		2B555AB61D0AAF5700848413 /* ExtString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtString.swift; sourceTree = "<group>"; };
@@ -89,6 +90,7 @@
 				2B555AB51D0AAF5700848413 /* ExtColor.swift */,
 				2B555AB61D0AAF5700848413 /* ExtString.swift */,
 				2B555ABE1D0AB21B00848413 /* ExtImage.swift */,
+				2B126BC31F98710900DDF35B /* ExtDouble.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -179,13 +181,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = ntaku;
 				TargetAttributes = {
 					2BC854831D0A8A0100774A98 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = WKJ32REDD2;
-						LastSwiftMigration = 0800;
+						DevelopmentTeam = S576V833NC;
+						LastSwiftMigration = 0900;
 					};
 				};
 			};
@@ -213,7 +215,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BD5AA0D1D0B92D6000C011F /* orientation_3.jpg in Resources */,
-				2BF978B71D0AAA8000FE0C72 /* Info.plist in Resources */,
 				2BF978B61D0AAA8000FE0C72 /* Main.storyboard in Resources */,
 				2BD5AA0E1D0B92D6000C011F /* orientation_6.jpg in Resources */,
 				2BD5AA0C1D0B92D6000C011F /* orientation_1.jpg in Resources */,
@@ -239,6 +240,7 @@
 				2B72E3071D5D80FE00F2A4E1 /* UIVerticalAlignLabel.swift in Sources */,
 				2BF978B31D0AAA8000FE0C72 /* AppDelegate.swift in Sources */,
 				2B0C8E6C1EDBE5B900486498 /* DateUtil.swift in Sources */,
+				2B126BC41F98710900DDF35B /* ExtDouble.swift in Sources */,
 				2BF978B81D0AAA8000FE0C72 /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,13 +278,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -304,7 +314,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -322,13 +332,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -344,9 +362,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -357,15 +376,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = WKJ32REDD2;
+				DEVELOPMENT_TEAM = S576V833NC;
 				INFOPLIST_FILE = "$(SRCROOT)/EssentialDemo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ntaku.ASSwiftEssentialDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ntaku.demo;
 				PRODUCT_NAME = EssentialDemo;
 				SWIFT_OBJC_BRIDGING_HEADER = "EssentialDemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -374,14 +394,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = WKJ32REDD2;
+				DEVELOPMENT_TEAM = S576V833NC;
 				INFOPLIST_FILE = "$(SRCROOT)/EssentialDemo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ntaku.ASSwiftEssentialDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ntaku.demo;
 				PRODUCT_NAME = EssentialDemo;
 				SWIFT_OBJC_BRIDGING_HEADER = "EssentialDemo-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

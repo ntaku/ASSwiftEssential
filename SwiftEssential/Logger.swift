@@ -1,11 +1,8 @@
-
 import Foundation
 
 // Other Swift Flags に -D DEBUG を追加する
-
 open class Logger {
 
-    // Debug log
     open class func d(_ message: String, function: String = #function, file: String = #file) {
         dump("\(message)", function: function, file: file)
     }
@@ -26,9 +23,9 @@ open class Logger {
         #if DEBUG
             var filename = file
             if let match = filename.range(of: "[^/]*$", options: .regularExpression) {
-                filename = filename.substring(with: match).gsub(from: ".swift", to: "")
+                filename = String(filename[match]).gsub(from: ".swift", to: "")
             }
-            print("\(filename).\(function) : \(message)")
+            print("[\(filename).\(function)] \(message)")
         #endif
     }
 }

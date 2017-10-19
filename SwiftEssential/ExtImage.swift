@@ -1,4 +1,3 @@
-
 import Foundation
 import UIKit
 
@@ -277,5 +276,12 @@ public extension UIImage {
         let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         return image
+    }
+
+    /**
+     指定色の画像を生成する
+     */
+    public class func image(from color: UIColor) -> UIImage {
+        return image(from: color, size: CGSize(width: 1, height: 1))
     }
 }

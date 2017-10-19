@@ -1,7 +1,5 @@
-
 import Foundation
 import UIKit
-
 
 open class UIVerticalAlignLabel: UILabel {
 
