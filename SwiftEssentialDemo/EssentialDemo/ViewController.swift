@@ -34,8 +34,6 @@ class ViewController: UIViewController {
     }
 
     func extString() {
-        Logger.d("ひらがな".toKatakana())
-        Logger.d("カタカナ".toHiragana())
         Logger.d("length = \("test test test".length)")
         Logger.d("test test test".split(by: " ").description)
         Logger.d("test test test".gsub(from: " ", to: ""))

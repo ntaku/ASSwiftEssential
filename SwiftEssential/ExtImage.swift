@@ -4,9 +4,9 @@ import UIKit
 public extension UIImage {
 
     /**
-     中心を正方形にクロップ
+     中心を正方形にクロップする
      */
-    public func crop() -> UIImage {
+    @objc public func crop() -> UIImage {
         let w = self.size.width
         let h = self.size.height
         let size = (w < h) ? w : h
@@ -19,17 +19,17 @@ public extension UIImage {
     }
 
     /**
-     指定した位置をクロップ
+     指定した位置をクロップする
      */
-    public func crop(bounds: CGRect) -> UIImage {
+    @objc public func crop(bounds: CGRect) -> UIImage {
         let cgImage = self.cgImage?.cropping(to: bounds)
         return UIImage.init(cgImage: cgImage!)
     }
 
     /**
-     長辺が指定したサイズになるように自動リサイズ
+     長辺が指定したサイズになるように自動リサイズする
      */
-    public func autoResize(_ maxsize: CGFloat) -> UIImage {
+    @objc public func autoResize(_ maxsize: CGFloat) -> UIImage {
         if(maxsize > 0){
             let ratio = maxsize / max(self.size.width, self.size.height)
             var size = CGSize(width: self.size.width * ratio, height: self.size.height * ratio)
@@ -44,9 +44,9 @@ public extension UIImage {
     }
 
     /**
-     アスペクト比を保ったまま自動リサイズ
+     アスペクト比を保ったまま自動リサイズする
      */
-    public func autoResize(_ size: CGSize, contentMode: UIViewContentMode) -> UIImage {
+    @objc public func autoResize(_ size: CGSize, contentMode: UIViewContentMode) -> UIImage {
 
         let horizontalRatio = size.width / self.size.width
         let verticalRatio = size.height / self.size.height
@@ -67,9 +67,9 @@ public extension UIImage {
     }
 
     /**
-     指定サイズでリサイズ
+     指定サイズでリサイズする
      */
-    public func resize(_ size: CGSize) -> UIImage {
+    @objc public func resize(_ size: CGSize) -> UIImage {
         var drawTransposed = false
 
         switch(self.imageOrientation){
@@ -89,7 +89,7 @@ public extension UIImage {
     }
 
     /**
-     Orientationを考慮したリサイズ
+     Orientationを考慮したリサイズする
      */
     fileprivate func resize(_ size: CGSize,
                             transform: CGAffineTransform,
@@ -100,8 +100,10 @@ public extension UIImage {
         let newRect = CGRect(x: 0, y: 0, width: size.width, height: size.height).integral
         let transposedRect = CGRect(x: 0, y: 0, width: newRect.size.height, height: newRect.size.width)
 
-        let bitmapInfo = self.normalizeBitmapInfo(oldBitmapInfo: imageRef.bitmapInfo)
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
+//        let bitmapInfo = self.normalizeBitmapInfo(oldBitmapInfo: imageRef.bitmapInfo)
+//        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let bitmapInfo = imageRef.bitmapInfo
+        let colorSpace = imageRef.colorSpace ?? CGColorSpaceCreateDeviceRGB()
 
         if let bitmap = CGContext(data: nil,
                                   width: Int(newRect.size.width),
@@ -124,15 +126,17 @@ public extension UIImage {
     /**
      画像を標準の向きに修正する
      */
-    public func fixOrientationUp() -> UIImage {
+    @objc public func fixOrientationUp() -> UIImage {
         if self.imageOrientation == .up {
             return self
         }
         guard let imageRef = self.cgImage else { return self }
 
         let transform = self.transformForOrientation(self.size)
-        let bitmapInfo = self.normalizeBitmapInfo(oldBitmapInfo: imageRef.bitmapInfo)
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
+//        let bitmapInfo = self.normalizeBitmapInfo(oldBitmapInfo: imageRef.bitmapInfo)
+//        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let bitmapInfo = imageRef.bitmapInfo
+        let colorSpace = imageRef.colorSpace ?? CGColorSpaceCreateDeviceRGB()
 
         if let ctx = CGContext(data: nil,
                                width: Int(self.size.width),
@@ -162,7 +166,7 @@ public extension UIImage {
         }
         return self
     }
-
+/*
     // http://stackoverflow.com/questions/5545600/iphone-cgcontextref-cgbitmapcontextcreate-unsupported-parameter-combination
     fileprivate func normalizeBitmapInfo(oldBitmapInfo: CGBitmapInfo) -> CGBitmapInfo {
 
@@ -183,9 +187,9 @@ public extension UIImage {
 
         return CGBitmapInfo.init(rawValue: newBitmapInfo)
     }
-
+*/
     /**
-     画像を正しい向きにするためのTransformを取得
+     画像を正しい向きにするためのTransformを取得する
      */
     fileprivate func transformForOrientation(_ newSize: CGSize) -> CGAffineTransform {
         var transform = CGAffineTransform.identity
@@ -194,19 +198,19 @@ public extension UIImage {
         case .down: fallthrough       // EXIF = 3
         case .downMirrored:           // EXIF = 4
             transform = transform.translatedBy(x: newSize.width, y: newSize.height)
-            transform = transform.rotated(by: CGFloat(Double.pi))
+            transform = transform.rotated(by: .pi)
             break
 
         case .left: fallthrough       // EXIF = 6
         case .leftMirrored:           // EXIF = 5
             transform = transform.translatedBy(x: newSize.width, y: 0)
-            transform = transform.rotated(by: CGFloat(Double.pi / 2))
+            transform = transform.rotated(by: .pi / 2.0)
             break
 
         case .right: fallthrough      // EXIF = 8
         case .rightMirrored:          // EXIF = 7
             transform = transform.translatedBy(x: 0, y: newSize.height)
-            transform = transform.rotated(by: CGFloat(-(Double.pi / 2)))
+            transform = transform.rotated(by: .pi / -2.0)
             break
 
         case .up: fallthrough
@@ -238,7 +242,7 @@ public extension UIImage {
         return transform
     }
 
-    public func orientationString() -> String {
+    @objc public func orientationString() -> String {
         switch self.imageOrientation {
         case .up:               return "Up"
         case .down:             return "Down"
@@ -252,23 +256,30 @@ public extension UIImage {
     }
 
     /**
-     JPGに変換
+     JPGに変換する
      */
-    public func toJpeg(_ quality: CGFloat) -> Data? {
+    @objc public func toJpeg(_ quality: CGFloat) -> Data? {
         return UIImageJPEGRepresentation(self, quality)
     }
 
     /**
-     PNGに変換
+     PNGに変換する
      */
-    public func toPng() -> Data? {
+    @objc public func toPng() -> Data? {
         return UIImagePNGRepresentation(self)
+    }
+
+    /**
+     指定色の画像を生成する
+     */
+    @objc public class func image(from color: UIColor) -> UIImage {
+        return image(from: color, size: CGSize(width: 1, height: 1))
     }
 
     /**
      指定色/サイズの画像を生成する
      */
-    public class func image(from color: UIColor, size: CGSize) -> UIImage {
+    @objc public class func image(from color: UIColor, size: CGSize) -> UIImage {
         let rect: CGRect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         UIGraphicsBeginImageContextWithOptions(CGSize(width: size.width, height: size.height), false, 0)
         color.setFill()
@@ -279,9 +290,25 @@ public extension UIImage {
     }
 
     /**
-     指定色の画像を生成する
+     指定色の画像に変換する
      */
-    public class func image(from color: UIColor) -> UIImage {
-        return image(from: color, size: CGSize(width: 1, height: 1))
+    @objc public func maskWith(color: UIColor) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+
+        let context = UIGraphicsGetCurrentContext()!
+        context.translateBy(x: 0, y: size.height)
+        context.scaleBy(x: 1.0, y: -1.0)
+        context.setBlendMode(.normal)
+
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        context.clip(to: rect, mask: cgImage!)
+
+        color.setFill()
+        context.fill(rect)
+
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
     }
 }
+

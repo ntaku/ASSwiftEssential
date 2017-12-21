@@ -14,18 +14,18 @@ import UIKit
  マルチタスクだと w:C h:R も発生
  */
 
-open class Device {
+public class Device {
 
-    open static func iOSVersion() -> Double {
+    @objc public static func iOSVersion() -> Double {
         return (UIDevice.current.systemVersion as NSString).doubleValue
     }
 
-    open static func appVersion() -> String {
+    @objc public static func appVersion() -> String {
         let dict = Bundle.main.infoDictionary as Dictionary!
         return dict!["CFBundleShortVersionString"] as! String
     }
 
-    open static func isLandscape() -> Bool {
+    @objc public static func isLandscape() -> Bool {
         if(UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft ||
             UIDevice.current.orientation == UIDeviceOrientation.landscapeRight){
             return true
@@ -33,7 +33,7 @@ open class Device {
         return false
     }
 
-    open static func isRetina() -> Bool {
+    @objc public static func isRetina() -> Bool {
         if(iOSVersion() >= 8.0){
             return UIScreen.main.traitCollection.displayScale >= 2.0
         }else{
@@ -42,27 +42,27 @@ open class Device {
     }
 
     // iPhone 4/4s
-    open static func isPhone35() -> Bool {
+    @objc public static func isPhone35() -> Bool {
         return isPhone(width: 320, height: 480)
     }
 
     // iPhone 5/5s
-    open static func isPhone40() -> Bool {
+    @objc public static func isPhone40() -> Bool {
         return isPhone(width: 320, height: 568)
     }
 
     // iPhone 6
-    open static func isPhone47() -> Bool {
+    @objc public static func isPhone47() -> Bool {
         return isPhone(width: 375, height: 667)
     }
 
     // iPhone 6+
-    open static func isPhone55() -> Bool {
+    @objc public static func isPhone55() -> Bool {
         return isPhone(width: 414, height: 736)
     }
 
     // iPhone X
-    open static func isPhoneX() -> Bool {
+    @objc public static func isPhoneX() -> Bool {
         return isPhone(width: 375, height: 812)
     }
 
@@ -73,7 +73,7 @@ open class Device {
         return (w == width && h == height) || (w == height && h == width)
     }
 
-    open static func isPad() -> Bool {
+    @objc public static func isPad() -> Bool {
         if(iOSVersion() >= 8.0){
             return UIScreen.main.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiom.pad
         }else{
@@ -82,7 +82,7 @@ open class Device {
     }
 
     // 横Compact, 縦Regular の状態かどうか (iPhoneとiPadのマルチタスク時に該当)
-    open static func isSizeClass_wC_hR(viewController vc: UIViewController) -> Bool {
+    @objc public static func isSizeClass_wC_hR(viewController vc: UIViewController) -> Bool {
         let hC = UITraitCollection.init(horizontalSizeClass: UIUserInterfaceSizeClass.compact)
         let vR = UITraitCollection.init(verticalSizeClass: UIUserInterfaceSizeClass.regular)
 
@@ -95,7 +95,7 @@ open class Device {
     }
 
     // 横Regular, 縦Regular の状態かどうか
-    open static func isSizeClass_wR_hR(viewController vc: UIViewController) -> Bool {
+    @objc public static func isSizeClass_wR_hR(viewController vc: UIViewController) -> Bool {
         let hR = UITraitCollection.init(horizontalSizeClass: UIUserInterfaceSizeClass.regular)
         let vR = UITraitCollection.init(verticalSizeClass: UIUserInterfaceSizeClass.regular)
 
@@ -108,7 +108,7 @@ open class Device {
     }
 
     // iPadがマルチタスク状態かどうか（w:R, h:Rの解像度が複数存在する）
-    open static func isSizeClass_wR_hR_Full(viewController vc: UIViewController) -> Bool {
+    @objc public static func isSizeClass_wR_hR_Full(viewController vc: UIViewController) -> Bool {
         if(self.isSizeClass_wR_hR(viewController: vc)){
             if(UIScreen.main.bounds.size.width == vc.view.frame.size.width){
                 return true

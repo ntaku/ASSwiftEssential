@@ -4,7 +4,7 @@ import UIKit
 public extension UIColor {
 
     // 0x000000 の書式でカラーを取得
-    public class func hex(_ hex : Int, alpha : CGFloat = 1.0) -> UIColor {
+    @objc public class func hex(_ hex : Int, alpha : CGFloat = 1.0) -> UIColor {
         let r = CGFloat((hex & 0xFF0000) >> 16) / 255.0
         let g = CGFloat((hex & 0x00FF00) >> 8) / 255.0
         let b = CGFloat(hex & 0x0000FF) / 255.0
@@ -12,8 +12,8 @@ public extension UIColor {
     }
 
     // "0x000000" の書式でカラーを取得
-    public class func hex(string: String, alpha: CGFloat = 1.0) -> UIColor {
-        let range = NSMakeRange(0, string.characters.count)
+    @objc public class func hex(string: String, alpha: CGFloat = 1.0) -> UIColor {
+        let range = NSMakeRange(0, string.count)
         let hex = (string as NSString).replacingOccurrences(of: "[^0-9a-fA-F]", with: "", options: NSString.CompareOptions.regularExpression, range: range)
         var c: UInt32 = 0
         Scanner(string: hex).scanHexInt32(&c)
@@ -21,7 +21,7 @@ public extension UIColor {
     }
 
     // 現在のカラーを "0x000000" の書式で取得
-    public func toString() -> String? {
+    @objc public func toString() -> String? {
         return self.cgColor.toString()
     }
 
