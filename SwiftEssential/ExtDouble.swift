@@ -27,8 +27,8 @@ public extension Double {
     /**
      秒数を00:00.00の形式に変換（最大99:59.99）
      */
-    public func toMsecTimeString(time: Double) -> String {
-        var remained = time
+    public func toMsecTimeString() -> String {
+        var remained = self
 
         let hour = Int(remained / 3600.0)
         remained -= Double(hour * 3600)
