@@ -100,8 +100,6 @@ public extension UIImage {
         let newRect = CGRect(x: 0, y: 0, width: size.width, height: size.height).integral
         let transposedRect = CGRect(x: 0, y: 0, width: newRect.size.height, height: newRect.size.width)
 
-//        let bitmapInfo = self.normalizeBitmapInfo(oldBitmapInfo: imageRef.bitmapInfo)
-//        let colorSpace = CGColorSpaceCreateDeviceRGB()
         let bitmapInfo = imageRef.bitmapInfo
         let colorSpace = imageRef.colorSpace ?? CGColorSpaceCreateDeviceRGB()
 
@@ -133,8 +131,6 @@ public extension UIImage {
         guard let imageRef = self.cgImage else { return self }
 
         let transform = self.transformForOrientation(self.size)
-//        let bitmapInfo = self.normalizeBitmapInfo(oldBitmapInfo: imageRef.bitmapInfo)
-//        let colorSpace = CGColorSpaceCreateDeviceRGB()
         let bitmapInfo = imageRef.bitmapInfo
         let colorSpace = imageRef.colorSpace ?? CGColorSpaceCreateDeviceRGB()
 
@@ -166,28 +162,7 @@ public extension UIImage {
         }
         return self
     }
-/*
-    // http://stackoverflow.com/questions/5545600/iphone-cgcontextref-cgbitmapcontextcreate-unsupported-parameter-combination
-    fileprivate func normalizeBitmapInfo(oldBitmapInfo: CGBitmapInfo) -> CGBitmapInfo {
 
-        //extract the alpha info by resetting everything else
-        var alphaInfo = oldBitmapInfo.rawValue & CGBitmapInfo.alphaInfoMask.rawValue
-
-        //Since iOS8 it's not allowed anymore to create contexts with unmultiplied Alpha info
-        if alphaInfo == CGImageAlphaInfo.last.rawValue {
-            alphaInfo = CGImageAlphaInfo.premultipliedLast.rawValue
-        }
-        if alphaInfo == CGImageAlphaInfo.first.rawValue {
-            alphaInfo = CGImageAlphaInfo.premultipliedFirst.rawValue
-        }
-
-        //reset the bits and set the bits to the new alphaInfo
-        var newBitmapInfo = oldBitmapInfo.rawValue & ~CGBitmapInfo.alphaInfoMask.rawValue
-        newBitmapInfo |= alphaInfo
-
-        return CGBitmapInfo.init(rawValue: newBitmapInfo)
-    }
-*/
     /**
      画像を正しい向きにするためのTransformを取得する
      */

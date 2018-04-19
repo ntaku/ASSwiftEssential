@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import CoreTelephony
 
 /*
  Portrait
@@ -21,8 +22,39 @@ public class Device {
     }
 
     @objc public static func appVersion() -> String {
-        let dict = Bundle.main.infoDictionary as Dictionary!
-        return dict!["CFBundleShortVersionString"] as! String
+        if let dict = Bundle.main.infoDictionary as [String: Any]? {
+            if let version = dict["CFBundleShortVersionString"] as? String {
+                return version
+            }
+        }
+        return ""
+    }
+
+    @objc public static func deviceModel(getRawName: Bool = false) -> String {
+        var size: Int = 0
+        sysctlbyname("hw.machine", nil, &size, nil, 0)
+
+        var machine = [CChar](repeating: 0, count: Int(size))
+        sysctlbyname("hw.machine", &machine, &size, nil, 0)
+
+        let code: String = String(cString:machine)
+        if getRawName {
+            return code
+        }
+        return DeviceList[code] ?? code
+    }
+
+    @objc public static func cdid() -> String {
+        if let uuid = UIDevice.current.identifierForVendor?.uuidString {
+            return "ios:\(uuid)"
+        }
+        return "null"
+    }
+
+    @objc public static func carrierName() -> String {
+        guard let provider = CTTelephonyNetworkInfo().subscriberCellularProvider else { return "null" }
+        guard let name = provider.carrierName else { return "null" }
+        return CarrierList[name] ?? name
     }
 
     @objc public static func isLandscape() -> Bool {
@@ -116,4 +148,72 @@ public class Device {
         }
         return false
     }
+
+    private static let CarrierList = [
+        "ソフトバンク": "SOFTBANK",
+        "ソフトバンクモバイル": "SOFTBANK",
+        "ドコモ": "DOCOMO",
+        "KDDI": "KDDI",
+        "ワイモバイル": "YMOBILE"
+    ]
+
+    private static let DeviceList = [
+        "iPhone3,1": "iPhone 4",
+        "iPhone3,2": "iPhone 4",
+        "iPhone3,3": "iPhone 4",
+        "iPhone4,1": "iPhone 4S",
+        "iPhone5,1": "iPhone 5",
+        "iPhone5,2": "iPhone 5",
+        "iPhone5,3": "iPhone 5C",
+        "iPhone5,4": "iPhone 5C",
+        "iPhone6,1": "iPhone 5S",
+        "iPhone6,2": "iPhone 5S",
+        "iPhone7,1": "iPhone 6 Plus",
+        "iPhone7,2": "iPhone 6",
+        "iPhone8,1": "iPhone 6S",
+        "iPhone8,2": "iPhone 6S Plus",
+        "iPhone8,4": "iPhone SE",
+        "iPhone9,1": "iPhone 7",
+        "iPhone9,2": "iPhone 7 Plus",
+        "iPhone9,3": "iPhone 7",
+        "iPhone9,4": "iPhone 7 Plus",
+        "iPhone10,1": "iPhone 8",
+        "iPhone10,2": "iPhone 8 Plus",
+        "iPhone10,3": "iPhone X",
+        "iPhone10,4": "iPhone 8",
+        "iPhone10,5": "iPhone 8 Plus",
+        "iPhone10,6": "iPhone X",
+        "iPad2,1": "iPad 2",
+        "iPad2,2": "iPad 2",
+        "iPad2,3": "iPad 2",
+        "iPad2,4": "iPad 2",
+        "iPad2,5": "iPad Mini",
+        "iPad2,6": "iPad Mini",
+        "iPad2,7": "iPad Mini",
+        "iPad3,1": "iPad 3",
+        "iPad3,2": "iPad 3",
+        "iPad3,3": "iPad 3",
+        "iPad3,4": "iPad 4",
+        "iPad3,5": "iPad 4",
+        "iPad3,6": "iPad 4",
+        "iPad4,1": "iPad Air",
+        "iPad4,2": "iPad Air",
+        "iPad4,3": "iPad Air",
+        "iPad4,4": "iPad Mini 2",
+        "iPad4,5": "iPad Mini 2",
+        "iPad4,6": "iPad Mini 2",
+        "iPad4,7": "iPad Mini 3",
+        "iPad4,8": "iPad Mini 3",
+        "iPad4,9": "iPad Mini 3",
+        "iPad5,1": "iPad Mini 4",
+        "iPad5,2": "iPad Mini 4",
+        "iPad5,3": "iPad Air 2",
+        "iPad5,4": "iPad Air 2",
+        "iPad6,7": "iPad Pro",
+        "iPad6,8": "iPad Pro",
+        "iPod5,1": "iPod Touch 5",
+        "iPod7,1": "iPod Touch 6",
+        "x86_64": "Simulator",
+        "i386": "Simulator"
+    ]
 }
