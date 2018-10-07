@@ -93,9 +93,9 @@ public class Device {
         return isPhone(width: 414, height: 736)
     }
 
-    // iPhone X
+    // iPhone X, XR, XS Max
     @objc public static func isPhoneX() -> Bool {
-        return isPhone(width: 375, height: 812)
+        return isPhone(width: 375, height: 812) || isPhone(width: 414, height: 896)
     }
 
     fileprivate static func isPhone(width: CGFloat, height: CGFloat) -> Bool {
@@ -157,6 +157,7 @@ public class Device {
         "ワイモバイル": "YMOBILE"
     ]
 
+    // https://gist.github.com/adamawolf/3048717
     private static let DeviceList = [
         "iPhone3,1": "iPhone 4",
         "iPhone3,2": "iPhone 4",
@@ -183,6 +184,11 @@ public class Device {
         "iPhone10,4": "iPhone 8",
         "iPhone10,5": "iPhone 8 Plus",
         "iPhone10,6": "iPhone X",
+        "iPhone11,2": "iPhone XS",
+        "iPhone11,4": "iPhone XS Max",
+        "iPhone11,6": "iPhone XS Max China",
+        "iPhone11,8": "iPhone XR",
+
         "iPad2,1": "iPad 2",
         "iPad2,2": "iPad 2",
         "iPad2,3": "iPad 2",
@@ -211,8 +217,18 @@ public class Device {
         "iPad5,4": "iPad Air 2",
         "iPad6,7": "iPad Pro",
         "iPad6,8": "iPad Pro",
+        "iPad6,11": "iPad (2017)",
+        "iPad6,12": "iPad (2017)",
+        "iPad7,1": "iPad Pro 2G",
+        "iPad7,2": "iPad Pro 2G",
+        "iPad7,3": "iPad Pro 10.5-inch",
+        "iPad7,4": "iPad Pro 10.5-inch",
+        "iPad7,5": "iPad 6th Gen (WiFi)",
+        "iPad7,6": "iPad 6th Gen (WiFi+Cellular)",
+
         "iPod5,1": "iPod Touch 5",
         "iPod7,1": "iPod Touch 6",
+
         "x86_64": "Simulator",
         "i386": "Simulator"
     ]
