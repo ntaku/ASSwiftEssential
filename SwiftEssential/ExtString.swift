@@ -18,7 +18,7 @@ public extension String {
     public func boundingRect(with font: UIFont, size: CGSize) -> CGRect {
         return (self as NSString).boundingRect(with: size,
                                                options: NSStringDrawingOptions.usesLineFragmentOrigin,
-                                               attributes: [NSAttributedStringKey.font: font],
+                                               attributes: [NSAttributedString.Key.font: font],
                                                context: nil)
     }
 

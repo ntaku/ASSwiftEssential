@@ -46,7 +46,7 @@ public extension UIImage {
     /**
      アスペクト比を保ったまま自動リサイズする
      */
-    @objc public func autoResize(_ size: CGSize, contentMode: UIViewContentMode) -> UIImage {
+    @objc public func autoResize(_ size: CGSize, contentMode: UIView.ContentMode) -> UIImage {
 
         let horizontalRatio = size.width / self.size.width
         let verticalRatio = size.height / self.size.height
@@ -234,14 +234,14 @@ public extension UIImage {
      JPGに変換する
      */
     @objc public func toJpeg(_ quality: CGFloat) -> Data? {
-        return UIImageJPEGRepresentation(self, quality)
+        return self.jpegData(compressionQuality: quality)
     }
 
     /**
      PNGに変換する
      */
     @objc public func toPng() -> Data? {
-        return UIImagePNGRepresentation(self)
+        return self.pngData()
     }
 
     /**
