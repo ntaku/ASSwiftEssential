@@ -5,7 +5,7 @@ public extension Double {
     /**
      秒数を0:00:00の形式に変換
      */
-    public func toTimeString() -> String {
+    func toTimeString() -> String {
         var remained = Int(self + 0.9) // 切り上げ
         let hour = remained / 3600
 
@@ -27,7 +27,7 @@ public extension Double {
     /**
      秒数を00:00.00の形式に変換（最大99:59.99）
      */
-    public func toMsecTimeString() -> String {
+    func toMsecTimeString() -> String {
         var remained = self
 
         let hour = Int(remained / 3600.0)
