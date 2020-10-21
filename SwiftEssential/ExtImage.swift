@@ -91,7 +91,7 @@ public extension UIImage {
     /**
      Orientationを考慮したリサイズする
      */
-    fileprivate func resize(_ size: CGSize,
+    private func resize(_ size: CGSize,
                             transform: CGAffineTransform,
                             transpose: Bool) -> UIImage {
 
@@ -166,7 +166,7 @@ public extension UIImage {
     /**
      画像を正しい向きにするためのTransformを取得する
      */
-    fileprivate func transformForOrientation(_ newSize: CGSize) -> CGAffineTransform {
+    private func transformForOrientation(_ newSize: CGSize) -> CGAffineTransform {
         var transform = CGAffineTransform.identity
 
         switch self.imageOrientation {

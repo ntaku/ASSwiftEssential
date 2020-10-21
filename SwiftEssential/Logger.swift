@@ -19,7 +19,7 @@ public class Logger {
         dPrint(error)
     }
 
-    fileprivate class func dump(_ message: String, function: String = #function, file: String = #file) {
+    private class func dump(_ message: String, function: String = #function, file: String = #file) {
         #if DEBUG
             var filename = file
             if let match = filename.range(of: "[^/]*$", options: .regularExpression) {
