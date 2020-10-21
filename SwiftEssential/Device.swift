@@ -15,7 +15,7 @@ import CoreTelephony
  マルチタスクだと w:C h:R も発生
  */
 
-public class Device {
+@objc public class Device: NSObject {
 
     @objc public static func iOSVersion() -> Double {
         return (UIDevice.current.systemVersion as NSString).doubleValue
