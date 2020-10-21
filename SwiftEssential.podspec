@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "SwiftEssential"
-  s.version      = "1.19"
+  s.version      = "1.20"
   s.summary      = "Essential code for swift project"
   s.description  = "Essential code for swift project"
   s.homepage     = "https://github.com/ntaku/SwiftEssential"
@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.author       = { "Takuto Nishioka" => "ntakuto@gmail.com" }
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
 
-  s.platform     = :ios, "10.0"
+  s.platform     = :ios, "12.0"
   s.requires_arc = true
 
   s.source       = { :git => "https://github.com/ntaku/SwiftEssential.git", :tag => "#{s.version}" }
