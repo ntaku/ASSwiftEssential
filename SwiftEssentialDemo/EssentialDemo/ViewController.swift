@@ -20,6 +20,7 @@ class ViewController: UIViewController {
         extString()
         extColor()
         dateUtil()
+        extImage()
     }
 
     func dateUtil() {
@@ -60,19 +61,14 @@ class ViewController: UIViewController {
     }
 
     func extImage() {
-        var img = UIImage.init(named: "orientation_6.jpg")!
+        var img = UIImage(named: "Portrait_8.jpg")!
 
-        let iw = view.bounds.width
-        let ih = view.bounds.height
-        let size = CGSize(width: iw*2, height: ih*2)
+        Logger.d("image orientation: \(img.orientationString()), \(img.imageOrientation.rawValue)")
+        img = img.autoResize(300)
+        Logger.d("image orientation: \(img.orientationString())")
+        Logger.d(img.size.debugDescription)
 
-        Logger.d(img.orientationString())
-        img = img.autoResize(size, contentMode: .scaleAspectFit)
-        img = img.crop()
-        Logger.d(img.orientationString())
-        Logger.d(img.description)
-
-        let imageView = UIImageView.init(frame: view.bounds)
+        let imageView = UIImageView(frame: view.bounds)
         imageView.backgroundColor = UIColor.gray
         imageView.contentMode = .scaleAspectFit
         imageView.image = img

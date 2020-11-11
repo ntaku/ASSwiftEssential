@@ -4,7 +4,7 @@ import UIKit
 public extension UIImage {
 
     /**
-     中心を正方形にクロップする
+     中心を正方形にクロップする  (Exifの画像の向きは考慮されない)
      */
     @objc func crop() -> UIImage {
         let w = self.size.width
@@ -14,16 +14,15 @@ public extension UIImage {
         let sx = self.size.width/2 - size/2
         let sy = self.size.height/2 - size/2
         let rect = CGRect(x: sx, y: sy, width: size, height: size)
-
-        return self.crop(bounds: rect)
+        return crop(bounds: rect)
     }
 
     /**
-     指定した位置をクロップする
+     指定した位置をクロップする  (Exifの画像の向きは考慮されない)
      */
     @objc func crop(bounds: CGRect) -> UIImage {
         let cgImage = self.cgImage?.cropping(to: bounds)
-        return UIImage.init(cgImage: cgImage!)
+        return UIImage(cgImage: cgImage!)
     }
 
     /**
@@ -32,190 +31,142 @@ public extension UIImage {
     @objc func autoResize(_ maxsize: CGFloat) -> UIImage {
         if(maxsize > 0){
             let ratio = maxsize / max(self.size.width, self.size.height)
-            var size = CGSize(width: self.size.width * ratio, height: self.size.height * ratio)
-
-            // オリジナルが設定より小さい場合
+            let size = CGSize(width: self.size.width * ratio, height: self.size.height * ratio)
+            // オリジナルが指定サイズより小さい場合
             if self.size.width <= size.width && self.size.height <= size.height {
-                size = self.size
+                return self
             }
             return resize(size)
         }
-        return resize(self.size)
+        return self
     }
 
     /**
      アスペクト比を保ったまま自動リサイズする
      */
-    @objc func autoResize(_ size: CGSize, contentMode: UIView.ContentMode) -> UIImage {
-
-        let horizontalRatio = size.width / self.size.width
-        let verticalRatio = size.height / self.size.height
-        let ratio: CGFloat
-
-        switch contentMode {
-        case .scaleAspectFit:
-            ratio = min(horizontalRatio, verticalRatio)
-            break
-        case .scaleAspectFill: fallthrough
-        default:
-            ratio = max(horizontalRatio, verticalRatio)
-            break
-        }
-
-        let newSize = CGSize(width: self.size.width * ratio, height: self.size.height * ratio)
-        return self.resize(newSize)
-    }
+//    @objc func autoResize(_ size: CGSize, contentMode: UIView.ContentMode) -> UIImage {
+//        let horizontalRatio = size.width / self.size.width
+//        let verticalRatio = size.height / self.size.height
+//        let ratio: CGFloat
+//
+//        switch contentMode {
+//        case .scaleAspectFit:
+//            ratio = min(horizontalRatio, verticalRatio)
+//            break
+//        case .scaleAspectFill: fallthrough
+//        default:
+//            ratio = max(horizontalRatio, verticalRatio)
+//            break
+//        }
+//
+//        let newSize = CGSize(width: self.size.width * ratio, height: self.size.height * ratio)
+//        return self.resize(newSize)
+//    }
 
     /**
-     指定サイズでリサイズする
+     指定サイズでリサイズする  (Exifの画像の向きが上に修正される)
      */
     @objc func resize(_ size: CGSize) -> UIImage {
-        var drawTransposed = false
-
-        switch(self.imageOrientation){
-        case .left: fallthrough
-        case .leftMirrored: fallthrough
-        case .right: fallthrough
-        case .rightMirrored:
-            drawTransposed = true
-            break
-        default:
-            drawTransposed = false
+        return UIGraphicsImageRenderer(size: size, format: imageRendererFormat).image { (context) in
+            draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         }
-
-        return self.resize(size,
-                           transform: self.transformForOrientation(size),
-                           transpose: drawTransposed)
     }
 
-    /**
-     Orientationを考慮したリサイズする
-     */
-    private func resize(_ size: CGSize,
-                            transform: CGAffineTransform,
-                            transpose: Bool) -> UIImage {
+//    /**
+//     画像を標準の向きに修正する
+//     */
+//    @objc func fixOrientationUp() -> UIImage {
+//        if self.imageOrientation == .up {
+//            return self
+//        }
+//        guard let imageRef = self.cgImage else { return self }
+//
+//        let transform = self.transformForOrientation(self.size)
+//        let bitmapInfo = imageRef.bitmapInfo
+//        let colorSpace = imageRef.colorSpace ?? CGColorSpaceCreateDeviceRGB()
+//
+//        if let ctx = CGContext(data: nil,
+//                               width: Int(self.size.width),
+//                               height: Int(self.size.height),
+//                               bitsPerComponent: imageRef.bitsPerComponent,
+//                               bytesPerRow: 0,
+//                               space: colorSpace,
+//                               bitmapInfo: bitmapInfo.rawValue) {
+//
+//            ctx.concatenate(transform)
+//
+//            switch self.imageOrientation {
+//            case .left: fallthrough
+//            case .leftMirrored: fallthrough
+//            case .right: fallthrough
+//            case .rightMirrored:
+//                ctx.draw(imageRef, in: CGRect(x: 0,y: 0,width: self.size.height,height: self.size.width))
+//                break
+//            default:
+//                ctx.draw(imageRef, in: CGRect(x: 0,y: 0,width: self.size.width,height: self.size.height))
+//                break
+//            }
+//
+//            if let cgimg = ctx.makeImage() {
+//                return UIImage.init(cgImage: cgimg)
+//            }
+//        }
+//        return self
+//    }
 
-        guard let imageRef = self.cgImage else { return self }
-
-        let newRect = CGRect(x: 0, y: 0, width: size.width, height: size.height).integral
-        let transposedRect = CGRect(x: 0, y: 0, width: newRect.size.height, height: newRect.size.width)
-
-        let bitmapInfo = imageRef.bitmapInfo
-        let colorSpace = imageRef.colorSpace ?? CGColorSpaceCreateDeviceRGB()
-
-        if let bitmap = CGContext(data: nil,
-                                  width: Int(newRect.size.width),
-                                  height: Int(newRect.size.height),
-                                  bitsPerComponent: imageRef.bitsPerComponent,
-                                  bytesPerRow: 0,
-                                  space: colorSpace,
-                                  bitmapInfo: bitmapInfo.rawValue) {
-
-            bitmap.concatenate(transform)
-            bitmap.interpolationQuality = .high
-            bitmap.draw(imageRef, in: transpose ? transposedRect : newRect)
-
-            let cgImageRef = bitmap.makeImage()
-            return UIImage.init(cgImage: cgImageRef!)
-        }
-        return self
-    }
-
-    /**
-     画像を標準の向きに修正する
-     */
-    @objc func fixOrientationUp() -> UIImage {
-        if self.imageOrientation == .up {
-            return self
-        }
-        guard let imageRef = self.cgImage else { return self }
-
-        let transform = self.transformForOrientation(self.size)
-        let bitmapInfo = imageRef.bitmapInfo
-        let colorSpace = imageRef.colorSpace ?? CGColorSpaceCreateDeviceRGB()
-
-        if let ctx = CGContext(data: nil,
-                               width: Int(self.size.width),
-                               height: Int(self.size.height),
-                               bitsPerComponent: imageRef.bitsPerComponent,
-                               bytesPerRow: 0,
-                               space: colorSpace,
-                               bitmapInfo: bitmapInfo.rawValue) {
-
-            ctx.concatenate(transform)
-
-            switch self.imageOrientation {
-            case .left: fallthrough
-            case .leftMirrored: fallthrough
-            case .right: fallthrough
-            case .rightMirrored:
-                ctx.draw(imageRef, in: CGRect(x: 0,y: 0,width: self.size.height,height: self.size.width))
-                break
-            default:
-                ctx.draw(imageRef, in: CGRect(x: 0,y: 0,width: self.size.width,height: self.size.height))
-                break
-            }
-
-            if let cgimg = ctx.makeImage() {
-                return UIImage.init(cgImage: cgimg)
-            }
-        }
-        return self
-    }
-
-    /**
-     画像を正しい向きにするためのTransformを取得する
-     */
-    private func transformForOrientation(_ newSize: CGSize) -> CGAffineTransform {
-        var transform = CGAffineTransform.identity
-
-        switch self.imageOrientation {
-        case .down: fallthrough       // EXIF = 3
-        case .downMirrored:           // EXIF = 4
-            transform = transform.translatedBy(x: newSize.width, y: newSize.height)
-            transform = transform.rotated(by: .pi)
-            break
-
-        case .left: fallthrough       // EXIF = 6
-        case .leftMirrored:           // EXIF = 5
-            transform = transform.translatedBy(x: newSize.width, y: 0)
-            transform = transform.rotated(by: .pi / 2.0)
-            break
-
-        case .right: fallthrough      // EXIF = 8
-        case .rightMirrored:          // EXIF = 7
-            transform = transform.translatedBy(x: 0, y: newSize.height)
-            transform = transform.rotated(by: .pi / -2.0)
-            break
-
-        case .up: fallthrough
-        case .upMirrored: fallthrough
-        default:
-            break
-        }
-
-        switch self.imageOrientation {
-        case .upMirrored: fallthrough    // EXIF = 2
-        case .downMirrored:              // EXIF = 4
-            transform = transform.translatedBy(x: newSize.width, y: 0)
-            transform = transform.scaledBy(x: -1, y: 1)
-            break;
-
-        case .leftMirrored: fallthrough  // EXIF = 5
-        case .rightMirrored:             // EXIF = 7
-            transform = transform.translatedBy(x: newSize.height, y: 0)
-            transform = transform.scaledBy(x: -1, y: 1)
-            break;
-
-        case .up: fallthrough
-        case .down: fallthrough
-        case .left: fallthrough
-        case .right: fallthrough
-        default:
-            break
-        }
-        return transform
-    }
+//    /**
+//     画像を正しい向きにするためのTransformを取得する
+//     */
+//    private func transformForOrientation(_ newSize: CGSize) -> CGAffineTransform {
+//        var transform = CGAffineTransform.identity
+//
+//        switch self.imageOrientation {
+//        case .down: fallthrough       // EXIF = 3
+//        case .downMirrored:           // EXIF = 4
+//            transform = transform.translatedBy(x: newSize.width, y: newSize.height)
+//            transform = transform.rotated(by: .pi)
+//            break
+//
+//        case .left: fallthrough       // EXIF = 6
+//        case .leftMirrored:           // EXIF = 5
+//            transform = transform.translatedBy(x: newSize.width, y: 0)
+//            transform = transform.rotated(by: .pi / 2.0)
+//            break
+//
+//        case .right: fallthrough      // EXIF = 8
+//        case .rightMirrored:          // EXIF = 7
+//            transform = transform.translatedBy(x: 0, y: newSize.height)
+//            transform = transform.rotated(by: .pi / -2.0)
+//            break
+//
+//        case .up: fallthrough
+//        case .upMirrored: fallthrough
+//        default:
+//            break
+//        }
+//
+//        switch self.imageOrientation {
+//        case .upMirrored: fallthrough    // EXIF = 2
+//        case .downMirrored:              // EXIF = 4
+//            transform = transform.translatedBy(x: newSize.width, y: 0)
+//            transform = transform.scaledBy(x: -1, y: 1)
+//            break;
+//
+//        case .leftMirrored: fallthrough  // EXIF = 5
+//        case .rightMirrored:             // EXIF = 7
+//            transform = transform.translatedBy(x: newSize.height, y: 0)
+//            transform = transform.scaledBy(x: -1, y: 1)
+//            break;
+//
+//        case .up: fallthrough
+//        case .down: fallthrough
+//        case .left: fallthrough
+//        case .right: fallthrough
+//        default:
+//            break
+//        }
+//        return transform
+//    }
 
     @objc func orientationString() -> String {
         switch self.imageOrientation {
@@ -228,7 +179,7 @@ public extension UIImage {
         case .leftMirrored:     return "LeftMirrored"
         case .rightMirrored:    return "RightMirrored"
         @unknown default:
-            return "Up"
+            return "Unknown"
         }
     }
 
@@ -253,6 +204,7 @@ public extension UIImage {
         return image(from: color, size: CGSize(width: 1, height: 1))
     }
 
+    //TODO UIGraphicsImageRendererにリプレイス
     /**
      指定色/サイズの画像を生成する
      */
@@ -266,6 +218,7 @@ public extension UIImage {
         return image
     }
 
+    //TODO UIGraphicsImageRendererにリプレイス
     /**
      指定色の画像に変換する
      */
