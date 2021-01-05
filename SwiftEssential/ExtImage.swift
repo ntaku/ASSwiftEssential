@@ -33,36 +33,14 @@ public extension UIImage {
             let ratio = maxsize / max(self.size.width, self.size.height)
             let size = CGSize(width: self.size.width * ratio, height: self.size.height * ratio)
             // オリジナルが指定サイズより小さい場合
+            //（resizeを実行しておかないとExifの向きが上向きに修正されないので実行される場合と挙動が異なってしまう。）
             if self.size.width <= size.width && self.size.height <= size.height {
-                return self
+                return resize(self.size)
             }
             return resize(size)
         }
-        // resizeを実行しておかないとExifの向きが上向きに修正されないので実行される場合と挙動が異なってしまう。
         return resize(self.size)
     }
-
-    /**
-     アスペクト比を保ったまま自動リサイズする
-     */
-//    @objc func autoResize(_ size: CGSize, contentMode: UIView.ContentMode) -> UIImage {
-//        let horizontalRatio = size.width / self.size.width
-//        let verticalRatio = size.height / self.size.height
-//        let ratio: CGFloat
-//
-//        switch contentMode {
-//        case .scaleAspectFit:
-//            ratio = min(horizontalRatio, verticalRatio)
-//            break
-//        case .scaleAspectFill: fallthrough
-//        default:
-//            ratio = max(horizontalRatio, verticalRatio)
-//            break
-//        }
-//
-//        let newSize = CGSize(width: self.size.width * ratio, height: self.size.height * ratio)
-//        return self.resize(newSize)
-//    }
 
     /**
      指定サイズでリサイズする  (Exifの画像の向きが上に修正される)
@@ -72,102 +50,6 @@ public extension UIImage {
             draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         }
     }
-
-//    /**
-//     画像を標準の向きに修正する
-//     */
-//    @objc func fixOrientationUp() -> UIImage {
-//        if self.imageOrientation == .up {
-//            return self
-//        }
-//        guard let imageRef = self.cgImage else { return self }
-//
-//        let transform = self.transformForOrientation(self.size)
-//        let bitmapInfo = imageRef.bitmapInfo
-//        let colorSpace = imageRef.colorSpace ?? CGColorSpaceCreateDeviceRGB()
-//
-//        if let ctx = CGContext(data: nil,
-//                               width: Int(self.size.width),
-//                               height: Int(self.size.height),
-//                               bitsPerComponent: imageRef.bitsPerComponent,
-//                               bytesPerRow: 0,
-//                               space: colorSpace,
-//                               bitmapInfo: bitmapInfo.rawValue) {
-//
-//            ctx.concatenate(transform)
-//
-//            switch self.imageOrientation {
-//            case .left: fallthrough
-//            case .leftMirrored: fallthrough
-//            case .right: fallthrough
-//            case .rightMirrored:
-//                ctx.draw(imageRef, in: CGRect(x: 0,y: 0,width: self.size.height,height: self.size.width))
-//                break
-//            default:
-//                ctx.draw(imageRef, in: CGRect(x: 0,y: 0,width: self.size.width,height: self.size.height))
-//                break
-//            }
-//
-//            if let cgimg = ctx.makeImage() {
-//                return UIImage.init(cgImage: cgimg)
-//            }
-//        }
-//        return self
-//    }
-
-//    /**
-//     画像を正しい向きにするためのTransformを取得する
-//     */
-//    private func transformForOrientation(_ newSize: CGSize) -> CGAffineTransform {
-//        var transform = CGAffineTransform.identity
-//
-//        switch self.imageOrientation {
-//        case .down: fallthrough       // EXIF = 3
-//        case .downMirrored:           // EXIF = 4
-//            transform = transform.translatedBy(x: newSize.width, y: newSize.height)
-//            transform = transform.rotated(by: .pi)
-//            break
-//
-//        case .left: fallthrough       // EXIF = 6
-//        case .leftMirrored:           // EXIF = 5
-//            transform = transform.translatedBy(x: newSize.width, y: 0)
-//            transform = transform.rotated(by: .pi / 2.0)
-//            break
-//
-//        case .right: fallthrough      // EXIF = 8
-//        case .rightMirrored:          // EXIF = 7
-//            transform = transform.translatedBy(x: 0, y: newSize.height)
-//            transform = transform.rotated(by: .pi / -2.0)
-//            break
-//
-//        case .up: fallthrough
-//        case .upMirrored: fallthrough
-//        default:
-//            break
-//        }
-//
-//        switch self.imageOrientation {
-//        case .upMirrored: fallthrough    // EXIF = 2
-//        case .downMirrored:              // EXIF = 4
-//            transform = transform.translatedBy(x: newSize.width, y: 0)
-//            transform = transform.scaledBy(x: -1, y: 1)
-//            break;
-//
-//        case .leftMirrored: fallthrough  // EXIF = 5
-//        case .rightMirrored:             // EXIF = 7
-//            transform = transform.translatedBy(x: newSize.height, y: 0)
-//            transform = transform.scaledBy(x: -1, y: 1)
-//            break;
-//
-//        case .up: fallthrough
-//        case .down: fallthrough
-//        case .left: fallthrough
-//        case .right: fallthrough
-//        default:
-//            break
-//        }
-//        return transform
-//    }
 
     @objc func orientationString() -> String {
         switch self.imageOrientation {
