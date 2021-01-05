@@ -38,7 +38,8 @@ public extension UIImage {
             }
             return resize(size)
         }
-        return self
+        // resizeを実行しておかないとExifの向きが上向きに修正されないので実行される場合と挙動が異なってしまう。
+        return resize(self.size)
     }
 
     /**
